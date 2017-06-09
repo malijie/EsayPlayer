@@ -86,6 +86,7 @@ public class MediaController extends FrameLayout {
   private SeekBar mProgress;
   private TextView mEndTime, mCurrentTime;
   private TextView mFileName;
+  private ImageButton mButtonZoomIn;
   private OutlineTextView mInfoView;
   private String mTitle;
   private long mDuration;
@@ -123,6 +124,15 @@ public class MediaController extends FrameLayout {
       show(sDefaultTimeout);
     }
   };
+
+  public View.OnClickListener mZoomInListener = new View.OnClickListener(){
+
+    @Override
+    public void onClick(View v) {
+      mPlayer.goFullScreen();
+    }
+  };
+
   private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
     public void onStartTrackingTouch(SeekBar bar) {
       mDragging = true;
@@ -258,9 +268,16 @@ public class MediaController extends FrameLayout {
     mEndTime = (TextView) v.findViewById(getResources().getIdentifier("mediacontroller_time_total", "id", mContext.getPackageName()));
     mCurrentTime = (TextView) v.findViewById(getResources().getIdentifier("mediacontroller_time_current", "id", mContext.getPackageName()));
     mFileName = (TextView) v.findViewById(getResources().getIdentifier("mediacontroller_file_name", "id", mContext.getPackageName()));
-    if (mFileName != null)
+    if (mFileName != null){
       mFileName.setText(mTitle);
+    }
+
+    mButtonZoomIn = (ImageButton) v.findViewById(getResources().getIdentifier("id_zoom_in","id",mContext.getPackageName()));
+//    mButtonZoomIn.setOnClickListener(mZoomInListener);
+
   }
+
+
 
   public void setMediaPlayer(MediaPlayerControl player) {
     mPlayer = player;
@@ -498,6 +515,8 @@ public class MediaController extends FrameLayout {
     boolean isPlaying();
 
     int getBufferPercentage();
+
+    void goFullScreen();
   }
 
 }

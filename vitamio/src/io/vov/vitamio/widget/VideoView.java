@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -649,7 +650,21 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     return 0;
   }
 
-  public void setVolume(float leftVolume, float rightVolume) {
+    @Override
+    public void goFullScreen() {
+        Activity activity = (Activity) mContext;
+Log.mlj("===is111===" + activity.getRequestedOrientation());
+Log.mlj("===is222===" + ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        if(activity.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
+            activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+Log.mlj("===goFullScreen===");
+            resume();
+
+        }
+    }
+
+    public void setVolume(float leftVolume, float rightVolume) {
     if (mMediaPlayer != null)
       mMediaPlayer.setVolume(leftVolume, rightVolume);
   }

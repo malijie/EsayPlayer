@@ -54,4 +54,8 @@ public class Log {
 	public static void e(String msg, Throwable t) {
 		android.util.Log.e(TAG, msg, t);
 	}
+
+	public static void mlj(String msg){
+		android.util.Log.d("MLJ", msg);
+	}
 }

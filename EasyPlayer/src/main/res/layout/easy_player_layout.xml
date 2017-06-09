@@ -3,33 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <io.vov.vitamio.widget.VideoView
         android:id="@+id/id_video_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/id_button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="play"/>
-        <Button
-            android:id="@+id/id_button_zoom_out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="max"/>
-
-        <Button
-            android:id="@+id/id_button_zoom_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="min"/>
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>
+
