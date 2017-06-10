@@ -8,7 +8,7 @@
         android:layout_height="50dp"
         android:background="@color/background_grey"
         android:layout_alignParentTop="true">
-        <ImageView
+        <ImageButton
             android:id="@+id/id_controller_button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:layout_toRightOf="@id/id_controller_button_back"
             android:text="测试视频.mkv"/>
         <TextView
-            android:id="@+id/id_controller_text_time"
+            android:id="@+id/id_controller_text_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/battery1"
-            android:layout_toLeftOf="@id/id_controller_text_time"
+            android:layout_toLeftOf="@id/id_controller_text_current_time"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"/>
         <TextView
@@ -63,14 +63,23 @@
         android:layout_alignParentBottom="true">
         <ImageButton
             android:id="@+id/id_controller_button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/plugin_fullscreen_play_control_play"/>
+            android:background="@drawable/play_btn"
+            android:visibility="invisible"/>
+        <ImageButton
+            android:id="@+id/id_controller_button_pause"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/pause_btn"/>
         <TextView
-            android:id="@+id/id_controller_text_current_time"
+            android:id="@+id/id_controller_text_progress_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -97,7 +106,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/id_controller_text_current_time"
+            android:layout_toRightOf="@id/id_controller_text_progress_time"
             android:layout_toLeftOf="@+id/id_controller_text_total_time"
             android:focusable="true"
             android:layout_marginLeft="10dp"
