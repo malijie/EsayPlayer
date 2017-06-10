@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easy.player.R;
@@ -34,6 +35,9 @@ public class EasyMediaController extends MediaController{
 
     private TextView mTextCurrentTime;
     private boolean mIsPlaying = false;
+    private TextView mTextVideoTime;
+    private ImageView mImageButtery;
+    private TextView mTextBattery;
 
     public EasyMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -53,6 +57,7 @@ public class EasyMediaController extends MediaController{
 
     @Override
     public void onFinishInflate() {
+        Log.mlj("onFinishInflate");
         super.onFinishInflate();
     }
 
@@ -105,22 +110,27 @@ public class EasyMediaController extends MediaController{
         }
     };
 
+
+
     @Override
     protected View makeControllerView() {
-Log.mlj("makeControllerView");
 
         View v = LayoutInflater.from(mContext).inflate(R.layout.my_media_controller,this);
         mButtonPlay = (ImageButton) v.findViewById(R.id.id_controller_button_play);
         mButtonPause = (ImageButton) v.findViewById(R.id.id_controller_button_pause);
         mButtonBack = (ImageButton) v.findViewById(R.id.id_controller_button_back);
         mTextCurrentTime = (TextView) v.findViewById(R.id.id_controller_text_current_time);
-
+        mTextVideoTime = (TextView)v.findViewById(R.id.id_controller_text_total_time);
+        mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
+        mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
         mButtonBack.setOnClickListener(backBtnOnClickListener);
 
+        mTextVideoTime.setText(mVideoView.getDuration() + "");
         return v;
     }
+
 
     private void updateControllerUI(){
         if(mIsPlaying){
@@ -133,11 +143,23 @@ Log.mlj("makeControllerView");
     }
 
     public void updateCurrentTime(){
-        Log.mlj("mTextCurrentTime=" + mTextCurrentTime + ",getCurrentTime" + getCurrentTime());
         mTextCurrentTime.setText(getCurrentTime());
     }
 
     private String getCurrentTime(){
         return Utils.getHHmmCurrentTime();
+    }
+
+
+    public void updateBatteryUI(int battery) {
+        if(battery>0 && battery <35){
+            mImageButtery.setImageResource(R.drawable.battery1);
+        }else if(battery>=35 && battery <90){
+            mImageButtery.setImageResource(R.drawable.battery2);
+        }else if(battery>=90 && battery <=100){
+            mImageButtery.setImageResource(R.drawable.battery3);
+        }
+        mTextBattery.setText(battery + "%");
+
     }
 }

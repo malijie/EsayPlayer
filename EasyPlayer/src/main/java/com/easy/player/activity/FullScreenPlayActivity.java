@@ -1,6 +1,9 @@
 package com.easy.player.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -13,6 +16,7 @@ import com.easy.player.controller.EasyMediaController;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
+import io.vov.vitamio.utils.Log;
 import io.vov.vitamio.widget.VideoView;
 
 /**
@@ -21,7 +25,9 @@ import io.vov.vitamio.widget.VideoView;
 
 public class FullScreenPlayActivity extends BaseActivity{
     private static final int MSG_UPDATE_CURRENT_TIME = 1;
+    private static final int MSG_UPDATE_BATTERY = 2;
     private static final long UPDATE_TIME_FREQUENCE = 60 * 1000;
+
     private String FILE_PATH = Environment.getExternalStorageDirectory() +
             File.separator + "apk" + File.separator + "test.mkv";
 
@@ -42,6 +48,8 @@ public class FullScreenPlayActivity extends BaseActivity{
 
 
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_CURRENT_TIME,1000);
+
+        registerBroadcastReceiver();
     }
 
     private  class MediaControllerHandler extends Handler{
@@ -61,6 +69,10 @@ public class FullScreenPlayActivity extends BaseActivity{
 
                      break;
 
+                 case MSG_UPDATE_BATTERY:
+                     mEasyMediaController.updateBatteryUI(msg.arg1);
+                     break;
+
              }
 
         }
@@ -70,6 +82,35 @@ public class FullScreenPlayActivity extends BaseActivity{
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+        unregisterReceiver(batteryReceiver);
 
     }
+
+
+    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.mlj("onReceive=== action====" + intent.getAction());
+            if(Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())){
+
+                Message msg = Message.obtain();
+                msg.what = MSG_UPDATE_BATTERY;
+                msg.arg1 = getBattery(intent);
+                mHandler.sendMessage(msg);
+            }
+        }
+    };
+
+    private int getBattery(Intent i){
+        int level = i.getIntExtra("level",0);
+        int scale = i.getIntExtra("scale",0);
+        return level * 100 /scale;
+    }
+
+    private void registerBroadcastReceiver(){
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryReceiver,filter);
+    }
+
+
 }
