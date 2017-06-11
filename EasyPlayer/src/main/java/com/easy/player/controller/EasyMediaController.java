@@ -176,7 +176,7 @@ public class EasyMediaController extends MediaController{
             show();
         }
     }
-
+    //手势
     public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onSingleTapUp(MotionEvent e) {

@@ -4,6 +4,10 @@
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable/scrubber_progress_horizontal_holo_dark.xml"
     },
     {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable/zoom_in_selector.xml",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable/zoom_in_selector.xml"
+    },
+    {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable/mediacontroller_button.xml",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable/mediacontroller_button.xml"
     },

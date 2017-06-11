@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="background_grey">#99585757</color>
     <color name="mediacontroller_bg">#99000000</color>
     <color name="mediacontroller_bg_pressed">#ff53c1bd</color>
     <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
     <string name="VideoView_error_button">OK</string>
     <string name="VideoView_error_text_invalid_progressive_playback">Sorry, this video is not valid for streaming to
         this device.
@@ -31,7 +33,7 @@
     </style>
     <style name="MediaController_Text">
         <item name="android:textColor">#ffffffff</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>

@@ -7,8 +7,8 @@
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 55,
-                    "endColumn": 54,
-                    "endOffset": 105
+                    "endColumn": 51,
+                    "endOffset": 102
                 },
                 "from": {
                     "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
@@ -16,8 +16,8 @@
                         "startLine": 2,
                         "startColumn": 4,
                         "startOffset": 55,
-                        "endColumn": 54,
-                        "endOffset": 105
+                        "endColumn": 51,
+                        "endOffset": 102
                     }
                 }
             },
@@ -25,330 +25,246 @@
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 110,
-                    "endColumn": 62,
-                    "endOffset": 168
+                    "startOffset": 107,
+                    "endColumn": 54,
+                    "endOffset": 157
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 110,
-                        "endColumn": 62,
-                        "endOffset": 168
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 173,
-                    "endColumn": 47,
-                    "endOffset": 216
+                    "startOffset": 162,
+                    "endColumn": 62,
+                    "endOffset": 220
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 173,
-                        "endColumn": 47,
-                        "endOffset": 216
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 221,
-                    "endColumn": 53,
-                    "endOffset": 270
+                    "startOffset": 225,
+                    "endColumn": 47,
+                    "endOffset": 268
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 221,
-                        "endColumn": 53,
-                        "endOffset": 270
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 275,
-                    "endLine": 8,
-                    "endColumn": 13,
-                    "endOffset": 422
+                    "startOffset": 273,
+                    "endColumn": 39,
+                    "endOffset": 308
                 },
                 "from": {
                     "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 275,
-                        "endLine": 8,
-                        "endColumn": 13,
-                        "endOffset": 422
+                        "startOffset": 273,
+                        "endColumn": 39,
+                        "endOffset": 308
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 9,
+                    "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 427,
-                    "endColumn": 92,
-                    "endOffset": 515
+                    "startOffset": 313,
+                    "endColumn": 53,
+                    "endOffset": 362
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 427,
-                        "endColumn": 92,
-                        "endOffset": 515
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
-                    "startLine": 10,
+                    "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 520,
-                    "endColumn": 67,
-                    "endOffset": 583
+                    "startOffset": 367,
+                    "endLine": 10,
+                    "endColumn": 13,
+                    "endOffset": 514
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 520,
-                        "endColumn": 67,
-                        "endOffset": 583
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 588,
-                    "endColumn": 65,
-                    "endOffset": 649
+                    "startOffset": 519,
+                    "endColumn": 92,
+                    "endOffset": 607
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 588,
-                        "endColumn": 65,
-                        "endOffset": 649
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 654,
-                    "endColumn": 100,
-                    "endOffset": 750
+                    "startOffset": 612,
+                    "endColumn": 67,
+                    "endOffset": 675
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 654,
-                        "endColumn": 100,
-                        "endOffset": 750
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 755,
-                    "endColumn": 70,
-                    "endOffset": 821
+                    "startOffset": 680,
+                    "endColumn": 65,
+                    "endOffset": 741
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 755,
-                        "endColumn": 70,
-                        "endOffset": 821
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 826,
-                    "endColumn": 112,
-                    "endOffset": 934
+                    "startOffset": 746,
+                    "endColumn": 100,
+                    "endOffset": 842
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 14,
-                        "startColumn": 4,
-                        "startOffset": 826,
-                        "endColumn": 112,
-                        "endOffset": 934
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 15,
                     "startColumn": 4,
-                    "startOffset": 939,
-                    "endColumn": 86,
-                    "endOffset": 1021
+                    "startOffset": 847,
+                    "endColumn": 70,
+                    "endOffset": 913
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 15,
-                        "startColumn": 4,
-                        "startOffset": 939,
-                        "endColumn": 86,
-                        "endOffset": 1021
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 16,
                     "startColumn": 4,
-                    "startOffset": 1026,
-                    "endLine": 17,
-                    "endColumn": 13,
-                    "endOffset": 1150
+                    "startOffset": 918,
+                    "endColumn": 112,
+                    "endOffset": 1026
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 16,
-                        "startColumn": 4,
-                        "startOffset": 1026,
-                        "endLine": 17,
-                        "endColumn": 13,
-                        "endOffset": 1150
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1031,
+                    "endColumn": 86,
+                    "endOffset": 1113
+                },
+                "from": {
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 18,
                     "startColumn": 4,
-                    "startOffset": 1155,
-                    "endColumn": 84,
-                    "endOffset": 1235
+                    "startOffset": 1118,
+                    "endLine": 19,
+                    "endColumn": 13,
+                    "endOffset": 1242
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 18,
-                        "startColumn": 4,
-                        "startOffset": 1155,
-                        "endColumn": 84,
-                        "endOffset": 1235
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 19,
-                    "startColumn": 4,
-                    "startOffset": 1240,
-                    "endColumn": 72,
-                    "endOffset": 1308
-                },
-                "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 19,
-                        "startColumn": 4,
-                        "startOffset": 1240,
-                        "endColumn": 72,
-                        "endOffset": 1308
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 20,
                     "startColumn": 4,
-                    "startOffset": 1313,
-                    "endColumn": 67,
-                    "endOffset": 1376
+                    "startOffset": 1247,
+                    "endColumn": 84,
+                    "endOffset": 1327
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 20,
-                        "startColumn": 4,
-                        "startOffset": 1313,
-                        "endColumn": 67,
-                        "endOffset": 1376
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1381,
-                    "endLine": 30,
-                    "endColumn": 12,
-                    "endOffset": 2023
+                    "startOffset": 1332,
+                    "endColumn": 72,
+                    "endOffset": 1400
                 },
                 "from": {
-                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
-                    "position": {
-                        "startLine": 21,
-                        "startColumn": 4,
-                        "startOffset": 1381,
-                        "endLine": 30,
-                        "endColumn": 12,
-                        "endOffset": 2023
-                    }
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
                 }
             },
             {
                 "to": {
-                    "startLine": 31,
+                    "startLine": 22,
                     "startColumn": 4,
-                    "startOffset": 2028,
-                    "endLine": 35,
+                    "startOffset": 1405,
+                    "endColumn": 67,
+                    "endOffset": 1468
+                },
+                "from": {
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1473,
+                    "endLine": 32,
                     "endColumn": 12,
-                    "endOffset": 2233
+                    "endOffset": 2115
+                },
+                "from": {
+                    "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml"
+                }
+            },
+            {
+                "to": {
+                    "startLine": 33,
+                    "startColumn": 4,
+                    "startOffset": 2120,
+                    "endLine": 37,
+                    "endColumn": 12,
+                    "endOffset": 2327
                 },
                 "from": {
                     "file": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
-                        "startLine": 31,
+                        "startLine": 33,
                         "startColumn": 4,
-                        "startOffset": 2028,
-                        "endLine": 35,
+                        "startOffset": 2120,
+                        "endLine": 37,
                         "endColumn": 12,
-                        "endOffset": 2233
+                        "endOffset": 2327
                     }
                 }
             }

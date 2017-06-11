@@ -2,5 +2,13 @@
     {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/layout/mediacontroller.xml",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/layout/mediacontroller.xml"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/layout/my_media_controller.xml",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/layout/my_media_controller.xml"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/layout/easy_media_controller.xml",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/layout/easy_media_controller.xml"
     }
 ]

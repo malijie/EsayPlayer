@@ -1,5 +1,9 @@
 [
     {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/plugin_fullscreen_play_control_pause.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/plugin_fullscreen_play_control_pause.png"
+    },
+    {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/scrubber_secondary_holo.9.png",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/scrubber_secondary_holo.9.png"
     },
@@ -8,8 +12,24 @@
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/scrubber_control_disabled_holo.png"
     },
     {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/battery2.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/battery2.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/battery_charge.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/battery_charge.png"
+    },
+    {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/scrubber_track_holo_dark.9.png",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/scrubber_track_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/plugin_small_fullscreen_btn_selected.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/plugin_small_fullscreen_btn_selected.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/battery3.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/battery3.png"
     },
     {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/scrubber_control_focused_holo.png",
@@ -28,8 +48,16 @@
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/mediacontroller_play.png"
     },
     {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/battery1.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/battery1.png"
+    },
+    {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/ic_launcher.png",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/plugin_fullscreen_play_control_play.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/plugin_fullscreen_play_control_play.png"
     },
     {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/scrubber_primary_holo.9.png",
@@ -38,5 +66,13 @@
     {
         "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/mediacontroller_pause.png",
         "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/mediacontroller_pause.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/plugin_small_fullscreen_btn_normal.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/plugin_small_fullscreen_btn_normal.png"
+    },
+    {
+        "merged": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/back_normal.png",
+        "source": "/Users/malijie/AndroidStudioProjects/EsayPlayer/vitamio/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/back_normal.png"
     }
 ]
