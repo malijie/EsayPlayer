@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +40,8 @@ public class EasyMediaController extends MediaController{
     private TextView mTextVideoTime;
     private ImageView mImageButtery;
     private TextView mTextBattery;
+    private GestureDetector mGestureDetector = null;
+
 
     public EasyMediaController(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,6 +56,8 @@ public class EasyMediaController extends MediaController{
         mActivity = activity;
         mVideoView = videoView;
         mContext = context;
+       mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
+
 
     }
 
@@ -161,5 +167,45 @@ public class EasyMediaController extends MediaController{
         }
         mTextBattery.setText(battery + "%");
 
+    }
+
+    public void toggleHideOrShow() {
+        if(isShowing()){
+            hide();
+        }else{
+            show();
+        }
+    }
+
+    public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener{
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            toggleHideOrShow();
+            return super.onSingleTapConfirmed(e);
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+    }
+
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mGestureDetector.onTouchEvent(event))
+            return true;
+        // 处理手势结束
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_UP:
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }
