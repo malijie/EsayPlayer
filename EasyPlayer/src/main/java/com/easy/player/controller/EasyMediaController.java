@@ -2,7 +2,6 @@ package com.easy.player.controller;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.utils.Utils;
-
-import java.io.File;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.utils.Log;
@@ -56,7 +53,8 @@ public class EasyMediaController extends MediaController{
         mActivity = activity;
         mVideoView = videoView;
         mContext = context;
-       mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
+        mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
+
 
 
     }
@@ -126,7 +124,7 @@ public class EasyMediaController extends MediaController{
         mButtonPause = (ImageButton) v.findViewById(R.id.id_controller_button_pause);
         mButtonBack = (ImageButton) v.findViewById(R.id.id_controller_button_back);
         mTextCurrentTime = (TextView) v.findViewById(R.id.id_controller_text_current_time);
-        mTextVideoTime = (TextView)v.findViewById(R.id.id_controller_text_total_time);
+        mTextVideoTime = (TextView)v.findViewById(R.id.mediacontroller_time_total);
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
