@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easy.player.R;
-import com.easy.player.utils.ToastManager;
+import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.utils.Utils;
 
 import io.vov.vitamio.MediaPlayer;
@@ -32,12 +32,13 @@ public class EasyMediaController extends MediaController{
     private ImageButton mButtonPlay = null;
     private ImageButton mButtonPause;
     private ImageButton mButtonBack;
-
-    private TextView mTextCurrentTime;
-    private boolean mIsPlaying = false;
     private TextView mTextVideoTime;
     private ImageView mImageButtery;
     private TextView mTextBattery;
+    private TextView mTextCurrentTime;
+    private TextView mTextVideoQuality = null;
+
+    private boolean mIsPlaying = false;
     private GestureDetector mGestureDetector = null;
 
 
@@ -124,6 +125,9 @@ public class EasyMediaController extends MediaController{
         }
     };
 
+    /**
+     * seek complete
+     */
     private MediaPlayer.OnSeekCompleteListener onSeekCompleteListener = new MediaPlayer.OnSeekCompleteListener() {
         @Override
         public void onSeekComplete(MediaPlayer mp) {
@@ -131,13 +135,41 @@ public class EasyMediaController extends MediaController{
         }
     };
 
+    private OnClickListener qualityBtnOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final PluginVideoQuality pluginVideoQuality = new PluginVideoQuality(mContext);
+            pluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
+                @Override
+                public void selectHighQuality() {
+                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_HIGH);
+                    pluginVideoQuality.dismiss();
+                }
 
+                @Override
+                public void selectMediumQuality() {
+                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
+                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_MEDIUM);
+                    pluginVideoQuality.dismiss();
+                }
+
+                @Override
+                public void selectLowQuality() {
+                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_LOW);
+                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_LOW);
+                    pluginVideoQuality.dismiss();
+                }
+            });
+            pluginVideoQuality.show();
+        }
+    };
 
     @Override
     protected View makeControllerView() {
         Log.mlj("==========EasyMediaController makeControllerView============");
 
-        View v = LayoutInflater.from(mContext).inflate(R.layout.my_media_controller,this);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.easy_media_controller,this);
         mButtonPlay = (ImageButton) v.findViewById(R.id.id_controller_button_play);
         mButtonPause = (ImageButton) v.findViewById(R.id.id_controller_button_pause);
         mButtonBack = (ImageButton) v.findViewById(R.id.id_controller_button_back);
@@ -145,9 +177,12 @@ public class EasyMediaController extends MediaController{
         mTextVideoTime = (TextView)v.findViewById(R.id.mediacontroller_time_total);
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
+        mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
+
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
         mButtonBack.setOnClickListener(backBtnOnClickListener);
+        mTextVideoQuality.setOnClickListener(qualityBtnOnClickListener);
 
         mTextVideoTime.setText(mVideoView.getDuration() + "");
 
@@ -159,7 +194,16 @@ public class EasyMediaController extends MediaController{
         mVideoView.setOnSeekCompleteListener(onSeekCompleteListener);
     }
 
-
+    private void updateVideoQualityUI(int quality){
+Log.mlj("quality=" + quality);
+        if(quality == MediaPlayer.VIDEOQUALITY_HIGH){
+            mTextVideoQuality.setText("超清");
+        }else if(quality == MediaPlayer.VIDEOQUALITY_MEDIUM){
+            mTextVideoQuality.setText("高清");
+        }else if(quality == MediaPlayer.VIDEOQUALITY_LOW){
+            mTextVideoQuality.setText("标清");
+        }
+    }
 
     private void updatePlayPauseButtonUI(boolean isPlaying){
         if(isPlaying){

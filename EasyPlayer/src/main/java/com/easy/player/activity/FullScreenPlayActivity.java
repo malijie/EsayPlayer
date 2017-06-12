@@ -20,6 +20,9 @@ import java.lang.ref.WeakReference;
 
 import io.vov.vitamio.widget.VideoView;
 
+import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_HIGH;
+import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_LOW;
+
 /**
  * Created by malijie on 2017/6/9.
  */
@@ -45,8 +48,9 @@ public class FullScreenPlayActivity extends BaseActivity{
         mVideoView = (VideoView) findViewById(R.id.id_video_view);
 
         mEasyMediaController = new EasyMediaController(this,this,mVideoView);
-        mVideoView.setMediaController(mEasyMediaController);
         mVideoView.setVideoPath(FILE_PATH);
+        mVideoView.setMediaController(mEasyMediaController);
+        mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
 
 
         mHandler.sendEmptyMessageDelayed(MSG_UPDATE_CURRENT_TIME,1000);
@@ -117,8 +121,6 @@ public class FullScreenPlayActivity extends BaseActivity{
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver,filter);
     }
-
-
 
 
 }

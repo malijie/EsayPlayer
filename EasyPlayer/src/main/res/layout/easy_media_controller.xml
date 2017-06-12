@@ -53,6 +53,16 @@
             tools:text="78%"
             android:textColor="@color/white"
             android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/id_controller_text_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp"
+            android:text="超清"
+            android:layout_toLeftOf="@id/id_controller_text_battery"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 
 
@@ -90,7 +100,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/id_controller_button_play"
-            android:text="00:04"/>
+            tools:text="00:04"/>
         <TextView
             android:id="@+id/mediacontroller_time_total"
             android:layout_width="wrap_content"
@@ -101,7 +111,7 @@
             android:layout_marginLeft="5dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:text="98:04"/>
+            tools:text="98:04"/>
 
         <SeekBar
             android:id="@+id/mediacontroller_seekbar"
