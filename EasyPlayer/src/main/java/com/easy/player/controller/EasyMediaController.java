@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easy.player.R;
+import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
 
 import io.vov.vitamio.MediaPlayer;
@@ -50,12 +51,14 @@ public class EasyMediaController extends MediaController{
 
     public EasyMediaController(Activity activity,Context context, VideoView videoView){
         super(context);
+
+        Log.mlj("==========EasyMediaController init==========");
         mActivity = activity;
         mVideoView = videoView;
         mContext = context;
         mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
 
-
+        initListener();
 
     }
 
@@ -72,7 +75,7 @@ public class EasyMediaController extends MediaController{
         @Override
         public void onClick(View v) {
             mIsPlaying = true;
-            updateControllerUI();
+            updatePlayPauseButtonUI(true);
             mVideoView.start();
         }
     };
@@ -84,7 +87,7 @@ public class EasyMediaController extends MediaController{
         @Override
         public void onClick(View v) {
             mIsPlaying = false;
-            updateControllerUI();
+            updatePlayPauseButtonUI(false);
             mVideoView.pause();
         }
     };
@@ -104,6 +107,13 @@ public class EasyMediaController extends MediaController{
         }
     };
 
+    private MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            updatePlayPauseButtonUI(mp.isPlaying());
+        }
+    };
+
     /**
      * prepare
      */
@@ -114,10 +124,18 @@ public class EasyMediaController extends MediaController{
         }
     };
 
+    private MediaPlayer.OnSeekCompleteListener onSeekCompleteListener = new MediaPlayer.OnSeekCompleteListener() {
+        @Override
+        public void onSeekComplete(MediaPlayer mp) {
+            updatePlayPauseButtonUI(true);
+        }
+    };
+
 
 
     @Override
     protected View makeControllerView() {
+        Log.mlj("==========EasyMediaController makeControllerView============");
 
         View v = LayoutInflater.from(mContext).inflate(R.layout.my_media_controller,this);
         mButtonPlay = (ImageButton) v.findViewById(R.id.id_controller_button_play);
@@ -132,12 +150,19 @@ public class EasyMediaController extends MediaController{
         mButtonBack.setOnClickListener(backBtnOnClickListener);
 
         mTextVideoTime.setText(mVideoView.getDuration() + "");
+
         return v;
     }
 
+    private void initListener() {
+        mVideoView.setOnCompletionListener(onCompletionListener);
+        mVideoView.setOnSeekCompleteListener(onSeekCompleteListener);
+    }
 
-    private void updateControllerUI(){
-        if(mIsPlaying){
+
+
+    private void updatePlayPauseButtonUI(boolean isPlaying){
+        if(isPlaying){
             mButtonPlay.setVisibility(View.INVISIBLE);
             mButtonPause.setVisibility(View.VISIBLE);
         }else{

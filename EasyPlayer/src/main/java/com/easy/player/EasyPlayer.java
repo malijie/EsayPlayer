@@ -1,4 +1,4 @@
-package com.easy.player.activity;
+package com.easy.player;
 
 import android.app.Application;
 import android.content.Context;
