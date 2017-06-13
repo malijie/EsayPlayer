@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.plugin.PluginVideoQuality;
+import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
 
 import io.vov.vitamio.MediaPlayer;
@@ -40,6 +41,8 @@ public class EasyMediaController extends MediaController{
 
     private boolean mIsPlaying = false;
     private GestureDetector mGestureDetector = null;
+    private PluginVideoQuality mPluginVideoQuality = null;
+
 
 
     public EasyMediaController(Context context, AttributeSet attrs) {
@@ -138,32 +141,50 @@ public class EasyMediaController extends MediaController{
     private OnClickListener qualityBtnOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            final PluginVideoQuality pluginVideoQuality = new PluginVideoQuality(mContext);
-            pluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
+            mPluginVideoQuality = new PluginVideoQuality(mContext);
+            mPluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
                 @Override
                 public void selectHighQuality() {
-                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_HIGH);
-                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_HIGH);
-                    pluginVideoQuality.dismiss();
+                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+
                 }
 
                 @Override
                 public void selectMediumQuality() {
-                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
-                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_MEDIUM);
-                    pluginVideoQuality.dismiss();
+                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
                 }
 
                 @Override
                 public void selectLowQuality() {
-                    mVideoView.setVideoQuality(MediaPlayer.VIDEOQUALITY_LOW);
-                    updateVideoQualityUI(MediaPlayer.VIDEOQUALITY_LOW);
-                    pluginVideoQuality.dismiss();
+                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_LOW);
                 }
             });
-            pluginVideoQuality.show();
+            mPluginVideoQuality.show();
         }
     };
+
+
+    private void handleChangeQuality(int quality){
+        mVideoView.setVideoQuality(quality);
+        updateVideoQualityUI(quality);
+        mPluginVideoQuality.dismiss();
+        changeQuality(quality);
+    }
+
+    private void changeQuality(int quality){
+       long currentPosition = mVideoView.getCurrentPosition();
+       mVideoView.setVideoQuality(quality);
+       mVideoView.seekTo(currentPosition);
+        String strQuality = "";
+        if(quality ==  MediaPlayer.VIDEOQUALITY_HIGH){
+            strQuality = "超清";
+        }else if(quality ==  MediaPlayer.VIDEOQUALITY_MEDIUM){
+            strQuality = "高清";
+        }else if(quality ==  MediaPlayer.VIDEOQUALITY_LOW){
+            strQuality = "标清";
+        }
+        ToastManager.showShortMsg("已切换清晰度为:" + strQuality);
+    }
 
     @Override
     protected View makeControllerView() {
@@ -195,7 +216,6 @@ public class EasyMediaController extends MediaController{
     }
 
     private void updateVideoQualityUI(int quality){
-Log.mlj("quality=" + quality);
         if(quality == MediaPlayer.VIDEOQUALITY_HIGH){
             mTextVideoQuality.setText("超清");
         }else if(quality == MediaPlayer.VIDEOQUALITY_MEDIUM){
