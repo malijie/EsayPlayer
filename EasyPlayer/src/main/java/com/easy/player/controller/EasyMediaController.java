@@ -3,16 +3,21 @@ package com.easy.player.controller;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.easy.player.R;
+import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginVideoQuality;
+import com.easy.player.utils.SharePreferenceUtil;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
 
@@ -25,7 +30,7 @@ import io.vov.vitamio.widget.VideoView;
  * Created by malijie on 2017/6/9.
  */
 
-public class EasyMediaController extends MediaController{
+public class EasyMediaController  extends MediaController implements PlayerMessage{
     private VideoView mVideoView = null;
     private Context mContext = null;
     private Activity mActivity = null;
@@ -38,11 +43,12 @@ public class EasyMediaController extends MediaController{
     private TextView mTextBattery;
     private TextView mTextCurrentTime;
     private TextView mTextVideoQuality = null;
+    private ImageView mImageBrightness;
+    private ImageView mImageVolume = null;
 
     private boolean mIsPlaying = false;
     private GestureDetector mGestureDetector = null;
     private PluginVideoQuality mPluginVideoQuality = null;
-
 
 
     public EasyMediaController(Context context, AttributeSet attrs) {
@@ -175,15 +181,19 @@ public class EasyMediaController extends MediaController{
        long currentPosition = mVideoView.getCurrentPosition();
        mVideoView.setVideoQuality(quality);
        mVideoView.seekTo(currentPosition);
+       ToastManager.showShortMsg("已切换清晰度为:" + getVideoQuality(quality));
+    }
+
+    private String getVideoQuality(int quality){
         String strQuality = "";
         if(quality ==  MediaPlayer.VIDEOQUALITY_HIGH){
-            strQuality = "超清";
+            strQuality = VIDEO_HIGH_QUALITY;
         }else if(quality ==  MediaPlayer.VIDEOQUALITY_MEDIUM){
-            strQuality = "高清";
+            strQuality = VIDEO_MEDIUM_QUALITY;
         }else if(quality ==  MediaPlayer.VIDEOQUALITY_LOW){
-            strQuality = "标清";
+            strQuality = VIDEO_LOW_QUALITY;
         }
-        ToastManager.showShortMsg("已切换清晰度为:" + strQuality);
+        return strQuality;
     }
 
     @Override
@@ -199,6 +209,8 @@ public class EasyMediaController extends MediaController{
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
+        mImageBrightness = (ImageView) v.findViewById(R.id.id_controller_img_brightness);
+        mImageVolume = (ImageView) v.findViewById(R.id.id_controller_img_volume);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -206,6 +218,7 @@ public class EasyMediaController extends MediaController{
         mTextVideoQuality.setOnClickListener(qualityBtnOnClickListener);
 
         mTextVideoTime.setText(mVideoView.getDuration() + "");
+        mTextVideoQuality.setText(getVideoQuality(SharePreferenceUtil.loadVideoQuality()));
 
         return v;
     }
@@ -217,11 +230,11 @@ public class EasyMediaController extends MediaController{
 
     private void updateVideoQualityUI(int quality){
         if(quality == MediaPlayer.VIDEOQUALITY_HIGH){
-            mTextVideoQuality.setText("超清");
+            mTextVideoQuality.setText(VIDEO_HIGH_QUALITY);
         }else if(quality == MediaPlayer.VIDEOQUALITY_MEDIUM){
-            mTextVideoQuality.setText("高清");
+            mTextVideoQuality.setText(VIDEO_MEDIUM_QUALITY);
         }else if(quality == MediaPlayer.VIDEOQUALITY_LOW){
-            mTextVideoQuality.setText("标清");
+            mTextVideoQuality.setText(VIDEO_LOW_QUALITY);
         }
     }
 
@@ -272,27 +285,79 @@ public class EasyMediaController extends MediaController{
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
+            clearUIState();
             toggleHideOrShow();
             return super.onSingleTapConfirmed(e);
         }
 
         @Override
         public boolean onDown(MotionEvent e) {
+
             return true;
         }
     }
 
+    int oldX = 0;
+    int oldY = 0;
+    int newX = 0;
+    int newY = 0;
 
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
+Log.mlj("is true=" + mGestureDetector.onTouchEvent(event));
+
         if (mGestureDetector.onTouchEvent(event))
             return true;
         // 处理手势结束
+        int screenWidth = getWindowWidth();
+
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 break;
+            case MotionEvent.ACTION_DOWN:
+                oldX = (int) event.getX();
+                oldY = (int) event.getY();
+Log.mlj("oldX=" + oldX + ",oldY=" + oldY);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                newX = (int) event.getX();
+                newY = (int) event.getY();
+
+                int deltaX = newX-oldX;
+                int deltaY = newY-oldY;
+
+                Log.mlj("screenWidth=" + screenWidth +",oldX=" + oldX + ",oldY=" + oldY +",newX=" + newX + ",newY=" + newY);
+                //右半屏
+                if(newX>screenWidth/2 && deltaY>deltaX){
+                    mImageBrightness.setVisibility(View.VISIBLE);
+                    mImageVolume.setVisibility(View.GONE);
+                }
+
+                //左半屏X
+                if(newX<screenWidth/2 && deltaY>deltaX){
+                    mImageVolume.setVisibility(View.VISIBLE);
+                    mImageBrightness.setVisibility(View.GONE);
+                }
+
+                break;
+
+            case MotionEvent.ACTION_SCROLL:
+
+                break;
         }
         return super.onTouchEvent(event);
+    }
+
+
+
+    private void clearUIState(){
+        mImageBrightness.setVisibility(View.GONE);
+        mImageVolume.setVisibility(View.GONE);
+    }
+
+    private int getWindowWidth(){
+        return getResources().getDisplayMetrics().widthPixels;
     }
 }

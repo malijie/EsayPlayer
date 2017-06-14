@@ -653,12 +653,9 @@ public class VideoView extends SurfaceView implements MediaController.MediaPlaye
     @Override
     public void goFullScreen() {
         Activity activity = (Activity) mContext;
-Log.mlj("===is111===" + activity.getRequestedOrientation());
-Log.mlj("===is222===" + ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         if(activity.getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE){
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-Log.mlj("===goFullScreen===");
             resume();
 
         }

@@ -65,8 +65,38 @@
             android:layout_centerVertical="true"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/id_controller_img_brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/brightness_full"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
-
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/id_controller_img_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/volume_10"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/id_controller_text_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/id_controller_img_volume"
+            tools:text="88%"
+            android:layout_centerInParent="true"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
 
 
     <RelativeLayout
