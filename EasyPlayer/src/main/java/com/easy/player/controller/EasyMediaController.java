@@ -256,26 +256,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         return Utils.getHHmmCurrentTime();
     }
 
-
-    public void updateBatteryUI(int battery) {
-        if(battery>0 && battery <35){
-            mImageButtery.setImageResource(R.drawable.battery1);
-        }else if(battery>=35 && battery <90){
-            mImageButtery.setImageResource(R.drawable.battery2);
-        }else if(battery>=90 && battery <=100){
-            mImageButtery.setImageResource(R.drawable.battery3);
-        }
-        mTextBattery.setText(battery + "%");
-
-    }
-
-    public void toggleHideOrShow() {
-        if(isShowing()){
-            hide();
-        }else{
-            show();
-        }
-    }
     //手势
     public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener{
         @Override
@@ -297,8 +277,28 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
     }
 
-    int oldX = 0;
-    int oldY = 0;
+    public void updateBatteryUI(int battery) {
+        if(battery>0 && battery <35){
+            mImageButtery.setImageResource(R.drawable.battery1);
+        }else if(battery>=35 && battery <90){
+            mImageButtery.setImageResource(R.drawable.battery2);
+        }else if(battery>=90 && battery <=100){
+            mImageButtery.setImageResource(R.drawable.battery3);
+        }
+        mTextBattery.setText(battery + "%");
+
+    }
+
+    public void toggleHideOrShow() {
+        if(isShowing()){
+            hide();
+        }else{
+            show();
+        }
+    }
+
+    int lastX = 0;
+    int lastY = 0;
     int newX = 0;
     int newY = 0;
 
@@ -306,29 +306,37 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-Log.mlj("is true=" + mGestureDetector.onTouchEvent(event));
+//Log.mlj("is true=" + mGestureDetector.onTouchEvent(event));
+        int x = (int) event.getX();
+        int y = (int) event.getY();
 
-        if (mGestureDetector.onTouchEvent(event))
+        if (mGestureDetector.onTouchEvent(event)){
+            lastX = x;
+            lastY = y;
             return true;
+        }
         // 处理手势结束
         int screenWidth = getWindowWidth();
+
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 break;
             case MotionEvent.ACTION_DOWN:
-                oldX = (int) event.getX();
-                oldY = (int) event.getY();
-Log.mlj("oldX=" + oldX + ",oldY=" + oldY);
+
+
+Log.mlj("MotionEvent.ACTION_DOWN");
+
                 break;
+
             case MotionEvent.ACTION_MOVE:
                 newX = (int) event.getX();
                 newY = (int) event.getY();
 
-                int deltaX = newX-oldX;
-                int deltaY = newY-oldY;
+                int deltaX = Math.abs(lastX-x);
+                int deltaY = Math.abs(lastY-y);
 
-                Log.mlj("screenWidth=" + screenWidth +",oldX=" + oldX + ",oldY=" + oldY +",newX=" + newX + ",newY=" + newY);
+                Log.mlj("screenWidth=" + screenWidth +",x=" + x + ",y=" + y +",lastX=" + lastX + ",lastY=" + lastY);
                 //右半屏
                 if(newX>screenWidth/2 && deltaY>deltaX){
                     mImageBrightness.setVisibility(View.VISIBLE);
