@@ -3,13 +3,10 @@ package com.easy.player.controller;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -333,17 +330,33 @@ Log.mlj("MotionEvent.ACTION_DOWN");
                 newX = (int) event.getX();
                 newY = (int) event.getY();
 
-                int deltaX = Math.abs(lastX-x);
-                int deltaY = Math.abs(lastY-y);
+                int deltaX = lastX-x;
+                int deltaY = lastY-y;
+
 
                 Log.mlj("screenWidth=" + screenWidth +",x=" + x + ",y=" + y +",lastX=" + lastX + ",lastY=" + lastY);
-                //右半屏
-                if(newX>screenWidth/2 && deltaY>deltaX){
+                //右半屏,调节亮度
+                if(newX>screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
                     mImageBrightness.setVisibility(View.VISIBLE);
                     mImageVolume.setVisibility(View.GONE);
+                    int currentBrightness = Utils.getScreenBrightness();
+                    int brightness;
+
+                    if(currentBrightness + (deltaY/10) <0){
+                        brightness = 0;
+                    }else if(currentBrightness + (deltaY/10) >255){
+                        brightness = 255;
+                    }else{
+                        brightness = currentBrightness + (deltaY/20);
+                    }
+
+Log.mlj("currentBrightness=" + currentBrightness + ",deltaY=" + deltaY + ",brightness=" + brightness);
+                    updateBrightnessUI(brightness);
+                    Utils.setScreenBrightness(mActivity,brightness);
+
                 }
 
-                //左半屏X
+                //左半屏，调节音量
                 if(newX<screenWidth/2 && deltaY>deltaX){
                     mImageVolume.setVisibility(View.VISIBLE);
                     mImageBrightness.setVisibility(View.GONE);
@@ -358,7 +371,40 @@ Log.mlj("MotionEvent.ACTION_DOWN");
         return super.onTouchEvent(event);
     }
 
+    private void updateBrightnessUI(int brightness){
+        int percent = brightness*100/255 ;
+        if(percent> 95 && percent <= 100){
+            mImageBrightness.setImageResource(R.mipmap.brightness_full);
+        }else if(percent <=4){
+            mImageBrightness.setImageResource(R.mipmap.brightness_empty);
+        }else if(percent>4 && percent <=15){
+            mImageBrightness.setImageResource(R.mipmap.brightness_10);
 
+        }else if(percent>15 && percent <=25){
+            mImageBrightness.setImageResource(R.mipmap.brightness_20);
+
+        }else if(percent>25 && percent <=35){
+            mImageBrightness.setImageResource(R.mipmap.brightness_30);
+
+        }else if(percent>35 && percent <=45){
+            mImageBrightness.setImageResource(R.mipmap.brightness_40);
+
+        }else if(percent>45 && percent <=55){
+            mImageBrightness.setImageResource(R.mipmap.brightness_50);
+
+        }else if(percent>55 && percent <=65){
+            mImageBrightness.setImageResource(R.mipmap.brightness_60);
+
+        }else if(percent>65 && percent <=75){
+            mImageBrightness.setImageResource(R.mipmap.brightness_70);
+
+        }else if(percent>75 && percent <=85){
+            mImageBrightness.setImageResource(R.mipmap.brightness_80);
+
+        }else if(percent>85 && percent <=95){
+            mImageBrightness.setImageResource(R.mipmap.brightness_90);
+        }
+    }
 
     private void clearUIState(){
         mImageBrightness.setVisibility(View.GONE);
