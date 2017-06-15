@@ -2,6 +2,8 @@ package com.easy.player.utils;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.media.AudioManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,5 +52,25 @@ public class Utils {
         params.screenBrightness = value / 255f;
         activity.getWindow().setAttributes(params);
         SharePreferenceUtil.saveBrightness(value);
+    }
+
+    public static int getPlayerVolume(){
+        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
+        int volume = SharePreferenceUtil.loadVolume();
+        if(volume == 0){
+            volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC );
+        }
+        return volume;
+    }
+
+    public static int getPlayerMaxVolume(){
+        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
+        return mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    }
+
+    public static void setPlayerVolume(int volume){
+        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
+        SharePreferenceUtil.saveVolume(volume);
     }
 }

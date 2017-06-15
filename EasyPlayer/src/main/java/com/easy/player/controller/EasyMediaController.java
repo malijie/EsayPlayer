@@ -357,9 +357,27 @@ Log.mlj("currentBrightness=" + currentBrightness + ",deltaY=" + deltaY + ",brigh
                 }
 
                 //左半屏，调节音量
-                if(newX<screenWidth/2 && deltaY>deltaX){
+                if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
                     mImageVolume.setVisibility(View.VISIBLE);
                     mImageBrightness.setVisibility(View.GONE);
+
+                    int savedVolume = Utils.getPlayerVolume();
+                    int volume;
+                    int maxVolume = Utils.getPlayerMaxVolume();
+
+                    if(savedVolume + (deltaY/100) <0){
+                        volume = 0;
+                    }else if(savedVolume + (deltaY/100) >maxVolume){
+                        volume = maxVolume;
+                    }else{
+                        volume = savedVolume + (deltaY/100);
+                    }
+
+                    Log.mlj("savedVolume=" + savedVolume + ",deltaY=" + deltaY + ",volume=" + volume + ",maxVolume=" + maxVolume);
+//                    updateBrightnessUI(brightness);
+                    Utils.setPlayerVolume(volume);
+
+
                 }
 
                 break;
