@@ -82,6 +82,25 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
         <ImageView
+            android:id="@+id/id_controller_img_fast_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/fast_back"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/id_controller_img_fast_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/fast_forward"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
             android:id="@+id/id_controller_img_volume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

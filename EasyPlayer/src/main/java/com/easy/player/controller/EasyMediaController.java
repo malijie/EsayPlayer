@@ -42,6 +42,8 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private TextView mTextVideoQuality = null;
     private ImageView mImageBrightness;
     private ImageView mImageVolume = null;
+    private ImageView mImageFastBack = null;
+    private ImageView mImageFastForward = null;
 
     private boolean mIsPlaying = false;
     private GestureDetector mGestureDetector = null;
@@ -208,6 +210,8 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
         mImageBrightness = (ImageView) v.findViewById(R.id.id_controller_img_brightness);
         mImageVolume = (ImageView) v.findViewById(R.id.id_controller_img_volume);
+        mImageFastBack  = (ImageView) findViewById(R.id.id_controller_img_fast_back);
+        mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -257,6 +261,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     public class PlayerGestureListener extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
+
             return false;
         }
 
@@ -303,7 +308,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-//Log.mlj("is true=" + mGestureDetector.onTouchEvent(event));
         int x = (int) event.getX();
         int y = (int) event.getY();
 
@@ -312,17 +316,17 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
             lastY = y;
             return true;
         }
+
         // 处理手势结束
         int screenWidth = getWindowWidth();
 
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
+                clearUIState();
+
                 break;
             case MotionEvent.ACTION_DOWN:
-
-
-Log.mlj("MotionEvent.ACTION_DOWN");
 
                 break;
 
@@ -350,14 +354,12 @@ Log.mlj("MotionEvent.ACTION_DOWN");
                         brightness = currentBrightness + (deltaY/20);
                     }
 
-Log.mlj("currentBrightness=" + currentBrightness + ",deltaY=" + deltaY + ",brightness=" + brightness);
                     updateBrightnessUI(brightness);
                     Utils.setScreenBrightness(mActivity,brightness);
+                    return true;
 
-                }
-
-                //左半屏，调节音量
-                if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
+                }else if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
+                    //左半屏，调节音量
                     mImageVolume.setVisibility(View.VISIBLE);
                     mImageBrightness.setVisibility(View.GONE);
 
@@ -373,11 +375,26 @@ Log.mlj("currentBrightness=" + currentBrightness + ",deltaY=" + deltaY + ",brigh
                         volume = savedVolume + (deltaY/100);
                     }
 
-                    Log.mlj("savedVolume=" + savedVolume + ",deltaY=" + deltaY + ",volume=" + volume + ",maxVolume=" + maxVolume);
-//                    updateBrightnessUI(brightness);
+                    updateVolumeUI(volume);
                     Utils.setPlayerVolume(volume);
+                    return true;
+                }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40){
+                    long currentPosition = mVideoView.getCurrentPosition();
+                    if(currentPosition == mVideoView.getDuration()){
+                        ToastManager.showShortMsg("视频已播放完毕！");
+                        return true;
+                    }
 
+                    if((currentPosition + deltaX/10)>=mVideoView.getDuration()){
+                        ToastManager.showShortMsg("视频已播放完毕2222！");
+                        return true;
+                    }
 
+                    mImageFastBack.setVisibility(VISIBLE);
+                    mVideoView.pause();
+                    mVideoView.seekTo(currentPosition - deltaX/10);
+
+                    return true;
                 }
 
                 break;
@@ -424,9 +441,43 @@ Log.mlj("currentBrightness=" + currentBrightness + ",deltaY=" + deltaY + ",brigh
         }
     }
 
+    private void updateVolumeUI(int volume){
+        if(volume == 15){
+            mImageVolume.setImageResource(R.mipmap.volume_full);
+        }else if(volume <=1){
+            mImageVolume.setImageResource(R.mipmap.volume_10);
+        }else if(volume>1 && volume <=2){
+            mImageVolume.setImageResource(R.mipmap.volume_20);
+
+        }else if(volume>2 && volume <=3){
+            mImageVolume.setImageResource(R.mipmap.volume_30);
+
+        }else if(volume>3 && volume <=4){
+            mImageVolume.setImageResource(R.mipmap.volume_40);
+
+        }else if(volume>4 && volume <=7){
+            mImageVolume.setImageResource(R.mipmap.volume_50);
+
+        }else if(volume>7 && volume <=8){
+            mImageVolume.setImageResource(R.mipmap.volume_60);
+
+        }else if(volume>8 && volume <=10){
+            mImageVolume.setImageResource(R.mipmap.volume_70);
+
+        }else if(volume>10 && volume <=13){
+            mImageVolume.setImageResource(R.mipmap.volume_80);
+
+        }else if(volume>13 && volume <=14) {
+            mImageVolume.setImageResource(R.mipmap.volume_90);
+        }
+    }
+
     private void clearUIState(){
         mImageBrightness.setVisibility(View.GONE);
         mImageVolume.setVisibility(View.GONE);
+        mImageFastForward.setVisibility(View.GONE);
+        mImageFastBack.setVisibility(View.GONE);
+
     }
 
     private int getWindowWidth(){
