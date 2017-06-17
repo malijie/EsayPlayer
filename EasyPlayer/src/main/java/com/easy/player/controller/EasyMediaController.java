@@ -304,6 +304,9 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     int newX = 0;
     int newY = 0;
 
+    private boolean updatingVolume = true;
+    private boolean updatingBrightness = true;
+    private boolean updatingFastBack = true;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -337,10 +340,10 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
                 int deltaX = lastX-x;
                 int deltaY = lastY-y;
 
-
                 Log.mlj("screenWidth=" + screenWidth +",x=" + x + ",y=" + y +",lastX=" + lastX + ",lastY=" + lastY);
                 //右半屏,调节亮度
-                if(newX>screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
+                if(newX>screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
+                    Log.mlj("=====调节亮度====");
                     mImageBrightness.setVisibility(View.VISIBLE);
                     mImageVolume.setVisibility(View.GONE);
                     int currentBrightness = Utils.getScreenBrightness();
@@ -356,10 +359,14 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
                     updateBrightnessUI(brightness);
                     Utils.setScreenBrightness(mActivity,brightness);
-                    return true;
 
-                }else if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
+                    updatingFastBack = false;
+                    updatingVolume = false;
+
+                }else if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
                     //左半屏，调节音量
+                    Log.mlj("=====调节音量====");
+
                     mImageVolume.setVisibility(View.VISIBLE);
                     mImageBrightness.setVisibility(View.GONE);
 
@@ -377,24 +384,24 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
                     updateVolumeUI(volume);
                     Utils.setPlayerVolume(volume);
-                    return true;
-                }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40){
+
+
+                    updatingFastBack = false;
+                    updatingBrightness = false;
+
+                }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
+                    //快退
+                    Log.mlj("=====快退====");
+
                     long currentPosition = mVideoView.getCurrentPosition();
-                    if(currentPosition == mVideoView.getDuration()){
-                        ToastManager.showShortMsg("视频已播放完毕！");
-                        return true;
-                    }
-
-                    if((currentPosition + deltaX/10)>=mVideoView.getDuration()){
-                        ToastManager.showShortMsg("视频已播放完毕2222！");
-                        return true;
-                    }
-
                     mImageFastBack.setVisibility(VISIBLE);
                     mVideoView.pause();
                     mVideoView.seekTo(currentPosition - deltaX/10);
 
-                    return true;
+                    updatingVolume = false;
+                    updatingBrightness = false;
+
+
                 }
 
                 break;
@@ -473,6 +480,10 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     }
 
     private void clearUIState(){
+        updatingFastBack = true;
+        updatingVolume = true;
+        updatingBrightness= true;
+
         mImageBrightness.setVisibility(View.GONE);
         mImageVolume.setVisibility(View.GONE);
         mImageFastForward.setVisibility(View.GONE);
