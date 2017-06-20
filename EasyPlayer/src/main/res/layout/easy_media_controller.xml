@@ -47,12 +47,15 @@
             android:id="@+id/id_controller_text_battery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/id_controller_img_battery"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="11dp"
             android:textSize="14sp"
             tools:text="78%"
             android:textColor="@color/white"
-            android:layout_centerVertical="true"/>
+            android:layout_alignBaseline="@+id/id_controller_text_quality"
+            android:layout_alignBottom="@+id/id_controller_text_quality"
+            android:layout_toLeftOf="@+id/id_controller_img_battery"
+            android:layout_toStartOf="@+id/id_controller_img_battery"
+            android:layout_marginEnd="11dp" />
         <TextView
             android:id="@+id/id_controller_text_quality"
             android:layout_width="wrap_content"
@@ -75,6 +78,15 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/brightness_full"
             android:visibility="gone"/>
+        <TextView
+            android:id="@+id/id_controller_text_brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/id_controller_img_brightness"
+            tools:text="88%"
+            android:layout_centerInParent="true"
+            android:textSize="14sp"
+            android:textColor="@color/white"/>
     </RelativeLayout>
 
     <RelativeLayout

@@ -73,4 +73,8 @@ public class Utils {
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
         SharePreferenceUtil.saveVolume(volume);
     }
+
+    public static int getWindowWidth(){
+        return EasyPlayer.sContext.getResources().getDisplayMetrics().widthPixels;
+    }
 }

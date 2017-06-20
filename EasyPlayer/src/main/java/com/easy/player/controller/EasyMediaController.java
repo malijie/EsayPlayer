@@ -46,10 +46,24 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private ImageView mImageVolume = null;
     private ImageView mImageFastBack = null;
     private ImageView mImageFastForward = null;
+    private TextView mTextBrightness = null;
 
+    private TextView mTextVolume = null;
     private boolean mIsPlaying = false;
     private GestureDetector mGestureDetector = null;
+
     private PluginVideoQuality mPluginVideoQuality = null;
+    private int lastX = 0;
+    private int lastY = 0;
+    private int newX = 0;
+
+    private int newY = 0;
+    private boolean updatingVolume = true;
+    private boolean updatingBrightness = true;
+    private boolean updatingFastBack = true;
+    private boolean updatingFastForward = true;
+    private long mSeekDelta;
+    private long currentPosition;
 
 
     public EasyMediaController(Context context, AttributeSet attrs) {
@@ -70,7 +84,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
 
         initListener();
-
     }
 
     @Override
@@ -214,6 +227,8 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mImageVolume = (ImageView) v.findViewById(R.id.id_controller_img_volume);
         mImageFastBack  = (ImageView) findViewById(R.id.id_controller_img_fast_back);
         mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
+        mTextVolume = (TextView)findViewById(R.id.id_controller_text_volume);
+        mTextBrightness =  (TextView)findViewById(R.id.id_controller_text_brightness);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -279,6 +294,11 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
             return true;
         }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return super.onScroll(e1, e2, distanceX, distanceY);
+        }
     }
 
     public void updateBatteryUI(int battery) {
@@ -301,17 +321,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
     }
 
-    int lastX = 0;
-    int lastY = 0;
-    int newX = 0;
-    int newY = 0;
 
-    private boolean updatingVolume = true;
-    private boolean updatingBrightness = true;
-    private boolean updatingFastBack = true;
-    private boolean updatingFastForward = true;
-    private long mSeekDelta;
-    long currentPosition;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -326,7 +336,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
 
         // 处理手势结束
-        int screenWidth = getWindowWidth();
+        int screenWidth = Utils.getWindowWidth();
 
 
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -350,7 +360,9 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
                 if(newX>screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
                     Log.mlj("=====调节亮度====");
                     mImageBrightness.setVisibility(View.VISIBLE);
+                    mTextBrightness.setVisibility(View.VISIBLE);
                     mImageVolume.setVisibility(View.GONE);
+
                     int currentBrightness = Utils.getScreenBrightness();
                     int brightness;
 
@@ -374,6 +386,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
                     Log.mlj("=====调节音量====");
 
                     mImageVolume.setVisibility(View.VISIBLE);
+                    mTextVolume.setVisibility(View.VISIBLE);
                     mImageBrightness.setVisibility(View.GONE);
 
                     int savedVolume = Utils.getPlayerVolume();
@@ -390,7 +403,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
                     updateVolumeUI(volume);
                     Utils.setPlayerVolume(volume);
-
 
                     updatingFastBack = false;
                     updatingBrightness = false;
@@ -446,6 +458,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
     private void updateBrightnessUI(int brightness){
         int percent = brightness*100/255 ;
+
         if(percent> 95 && percent <= 100){
             mImageBrightness.setImageResource(R.mipmap.brightness_full);
         }else if(percent <=4){
@@ -477,9 +490,11 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }else if(percent>85 && percent <=95){
             mImageBrightness.setImageResource(R.mipmap.brightness_90);
         }
+        mTextBrightness.setText(percent + "%");
     }
 
-    private void updateVolumeUI(int volume){
+    private void updateVolumeUI(float volume){
+        int volumePercent = Math.round(volume/15*100);
         if(volume == 15){
             mImageVolume.setImageResource(R.mipmap.volume_full);
         }else if(volume <=1){
@@ -508,6 +523,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }else if(volume>13 && volume <=14) {
             mImageVolume.setImageResource(R.mipmap.volume_90);
         }
+        mTextVolume.setText(volumePercent + "%");
     }
 
     private void clearUIState(){
@@ -517,15 +533,14 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         updatingFastForward = true;
         mSeekDelta = 0;
 
-
         mImageBrightness.setVisibility(View.GONE);
         mImageVolume.setVisibility(View.GONE);
         mImageFastForward.setVisibility(View.GONE);
         mImageFastBack.setVisibility(View.GONE);
+        mTextVolume.setVisibility(View.GONE);
+        mTextBrightness.setVisibility(View.GONE);
 
     }
 
-    private int getWindowWidth(){
-        return getResources().getDisplayMetrics().widthPixels;
-    }
+
 }

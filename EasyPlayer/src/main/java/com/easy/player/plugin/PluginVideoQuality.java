@@ -105,7 +105,6 @@ public class PluginVideoQuality extends BasePlugin{
             mTextQualityMedium.setTextColor(Utils.getColor(R.color.plugin_video_quality_text_select));
 
         }else if(quality == VIDEO_QUALITY_LOW){
-
             mTextQualityLow.setTextColor(Utils.getColor(R.color.plugin_video_quality_text_select));
         }
     }
