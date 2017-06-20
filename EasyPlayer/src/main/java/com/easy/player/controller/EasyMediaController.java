@@ -28,6 +28,8 @@ import io.vov.vitamio.widget.VideoView;
  */
 
 public class EasyMediaController  extends MediaController implements PlayerMessage{
+    private static final String TAG = EasyMediaController.class.getSimpleName();
+
     private VideoView mVideoView = null;
     private Context mContext = null;
     private Activity mActivity = null;
@@ -307,6 +309,9 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private boolean updatingVolume = true;
     private boolean updatingBrightness = true;
     private boolean updatingFastBack = true;
+    private boolean updatingFastForward = true;
+    private long mSeekDelta;
+    long currentPosition;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -362,6 +367,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
                     updatingFastBack = false;
                     updatingVolume = false;
+                    updatingFastForward = false;
 
                 }else if(newX<screenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
                     //左半屏，调节音量
@@ -388,6 +394,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
                     updatingFastBack = false;
                     updatingBrightness = false;
+                    updatingFastForward = false;
 
                 }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
                     //快退
@@ -399,8 +406,32 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
                     mVideoView.seekTo(currentPosition - deltaX/10);
 
                     updatingVolume = false;
-                    updatingBrightness = false;
 
+                    updatingBrightness = false;
+                    updatingFastForward = false;
+
+                }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40 && updatingFastForward){
+                    //快退
+                    Log.mlj("=====快进====");
+                    mVideoView.pause();
+
+                    if(updatingFastForward){
+                        currentPosition = mVideoView.getCurrentPosition();
+                    }
+
+                    mImageFastForward.setVisibility(VISIBLE);
+                    mSeekDelta += Math.abs(deltaX/100);
+
+                    long seekPosition = currentPosition + mSeekDelta;
+                    if(seekPosition >= mVideoView.getDuration()){
+                        ToastManager.showShortMsg("视频已播放完毕");
+                        return false;
+                    }
+
+                    mVideoView.seekTo(seekPosition);
+                    updatingVolume = false;
+                    updatingBrightness = false;
+                    updatingFastBack = false;
 
                 }
 
@@ -483,6 +514,9 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         updatingFastBack = true;
         updatingVolume = true;
         updatingBrightness= true;
+        updatingFastForward = true;
+        mSeekDelta = 0;
+
 
         mImageBrightness.setVisibility(View.GONE);
         mImageVolume.setVisibility(View.GONE);
