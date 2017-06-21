@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.easy.player.EasyPlayer;
@@ -15,11 +16,14 @@ import com.easy.player.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.vov.vitamio.utils.Log;
+
 /**
  * Created by malijie on 2017/6/10.
  */
 
 public class Utils {
+
     public static String getHHmmCurrentTime(){
        return new SimpleDateFormat("HH:mm").format(new Date());
     }
@@ -32,26 +36,51 @@ public class Utils {
         return EasyPlayer.sContext.getResources().getColor(colorId);
     }
 
-    public static int getScreenBrightness(){
-
-        int value = SharePreferenceUtil.loadBrightness();
-        if(value == 0){
-            ContentResolver cr = EasyPlayer.sContext.getContentResolver();
-            try {
-                value = Settings.System.getInt(cr, Settings.System.SCREEN_BRIGHTNESS);
-            } catch (Settings.SettingNotFoundException e) {
-
-            }
+    // 根据亮度值修改当前window亮度
+   public static void changeAppBrightness(Activity activity, int brightness) {
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        if (brightness == -1) {
+                lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+            } else {
+                lp.screenBrightness = (brightness <= 0 ? 1 : brightness) / 255f;
         }
+       window.setAttributes(lp);
+   }
 
-        return value;
+   public static int getAppBrightness(Activity activity){
+       int systemBrightness = 0;
+       try {
+           systemBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+       } catch (Settings.SettingNotFoundException e) {
+           e.printStackTrace();
+       }
+       return systemBrightness;
+   }
+
+    public static float getScreenBrightness(Activity activity){
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        return lp.screenBrightness;
     }
 
-    public static void setScreenBrightness(Activity activity,int value){
-        WindowManager.LayoutParams params = activity.getWindow().getAttributes();
-        params.screenBrightness = value / 255f;
-        activity.getWindow().setAttributes(params);
-        SharePreferenceUtil.saveBrightness(value);
+    public static void setScreenBrightness(Activity activity,float value){
+
+        Window window = activity.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.screenBrightness = value;
+        window.setAttributes(lp);
+    }
+
+    public static void changeAppBrightness(Context context, int brightness) {
+        Window window = ((Activity) context).getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        if (brightness == -1) {
+            lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+        } else {
+            lp.screenBrightness = (brightness <= 0 ? 1 : brightness) / 255f;
+        }
+        window.setAttributes(lp);
     }
 
     public static int getPlayerVolume(){
