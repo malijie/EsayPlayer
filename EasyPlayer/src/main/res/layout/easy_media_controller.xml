@@ -129,6 +129,12 @@
             android:textColor="@color/white"/>
     </RelativeLayout>
 
+    <com.ldoublem.loadingviewlib.view.LVCircularRing
+        android:id="@+id/lv_circularring"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
