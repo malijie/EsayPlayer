@@ -8,4 +8,6 @@
     <color name="white">#FFFFFF</color>
     <color name="loading_view">#8DD8F8</color>
     <color name="loading_bar">#EF3F22</color>
+    <color name="viewpager_indicator_red">#EF3F22</color>
+    <color name="title_bar_text_blue">#8DD8F8</color>
 </resources>

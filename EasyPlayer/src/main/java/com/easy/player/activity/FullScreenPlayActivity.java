@@ -58,6 +58,16 @@ public class FullScreenPlayActivity extends BaseActivity{
         registerBroadcastReceiver();
     }
 
+    @Override
+    public void initViews() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
     private  class MediaControllerHandler extends Handler{
         private WeakReference<Context> mContext = null;
         MediaControllerHandler(Context context){
