@@ -7,4 +7,13 @@
         <attr name="visible_tab_count" />
     </declare-styleable>
 
+
+    <attr name="view_color" format="color"/>
+    <attr name="bar_color" format="color"/>
+
+    <declare-styleable name="LoadingView">
+        <attr name="view_color"/>
+        <attr name="bar_color"/>
+    </declare-styleable>
+
 </resources>

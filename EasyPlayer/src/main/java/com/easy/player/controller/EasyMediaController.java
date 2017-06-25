@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easy.player.R;
@@ -49,7 +50,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private ImageView mImageFastForward = null;
     private TextView mTextBrightness = null;
     private TextView mTextVolume = null;
-    private LVCircularRing mLoadingView = null;
+    private RelativeLayout mLoadingViewLayout = null;
 
     private boolean mIsPlaying = false;
     private int mBrightness;
@@ -196,16 +197,11 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
 
     private void handleChangeQuality(int quality){
-        mLoadingView.setVisibility(VISIBLE);
-        mLoadingView.startAnim();
 
         mVideoView.setVideoQuality(quality);
         updateVideoQualityUI(quality);
         mPluginVideoQuality.dismiss();
         changeQuality(quality);
-
-        mLoadingView.stopAnim();
-        mLoadingView.setVisibility(GONE);
 
     }
 
@@ -247,7 +243,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
         mTextVolume = (TextView)findViewById(R.id.id_controller_text_volume);
         mTextBrightness =  (TextView)findViewById(R.id.id_controller_text_brightness);
-        mLoadingView = (LVCircularRing) findViewById(R.id.lv_circularring);
+        mLoadingViewLayout = (RelativeLayout) findViewById(R.id.id_loading_view);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -263,8 +259,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     }
 
     private void initViews() {
-        mLoadingView.setBarColor(Utils.getColor(R.color.loading_bar));
-        mLoadingView.setViewColor(Utils.getColor(R.color.loading_view));
+        mLoadingViewLayout.setVisibility(View.VISIBLE);
     }
 
     private void initListener() {
