@@ -3,23 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/transparent">
 
-    <com.easy.player.widget.LoadingView
-        android:id="@+id/id_loading_circular"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        app:view_color="@color/loading_view"
-        app:bar_color="@color/loading_bar"
-        />
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/id_loading_circular"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:text="加载中，请稍后...."
-        android:textSize="16sp"
-        android:textColor="@color/white"/>
+        android:background="@color/background_grey">
+        <com.easy.player.widget.LoadingView
+            android:id="@+id/id_loading_circular"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            app:view_color="@color/loading_view"
+            app:bar_color="@color/loading_bar"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/id_loading_circular"
+            android:layout_centerInParent="true"
+            android:text="加载中，请稍后...."
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>

@@ -129,10 +129,7 @@
             android:textColor="@color/white"/>
     </RelativeLayout>
 
-    <include
-        android:id="@+id/id_loading_view"
-        layout="@layout/loading_view"
-        android:visibility="gone"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

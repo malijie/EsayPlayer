@@ -5,6 +5,7 @@
     <color name="mediacontroller_bg_pressed">#ff53c1bd</color>
     <color name="mediacontroller_bg">#99000000</color>
     <color name="background_grey">#99585757</color>
+    <color name="loading_background">#99565555</color>
     <color name="white">#FFFFFF</color>
     <color name="loading_view">#8DD8F8</color>
     <color name="loading_bar">#EF3F22</color>
