@@ -50,18 +50,12 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private ImageView mImageFastForward = null;
     private TextView mTextBrightness = null;
     private TextView mTextVolume = null;
-    private RelativeLayout mLoadingViewLayout = null;
 
     private boolean mIsPlaying = false;
     private int mBrightness;
     private GestureDetector mGestureDetector = null;
 
     private PluginVideoQuality mPluginVideoQuality = null;
-//    private int lastX = 0;
-//    private int lastY = 0;
-//    private int newX = 0;
-//
-//    private int newY = 0;
     private boolean updatingVolume = true;
     private boolean updatingBrightness = true;
     private boolean updatingFastBack = true;
@@ -243,7 +237,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
         mTextVolume = (TextView)findViewById(R.id.id_controller_text_volume);
         mTextBrightness =  (TextView)findViewById(R.id.id_controller_text_brightness);
-        mLoadingViewLayout = (RelativeLayout) findViewById(R.id.id_loading_view);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -259,7 +252,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     }
 
     private void initViews() {
-        mLoadingViewLayout.setVisibility(View.VISIBLE);
     }
 
     private void initListener() {
