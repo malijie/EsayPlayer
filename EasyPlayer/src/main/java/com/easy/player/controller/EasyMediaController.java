@@ -56,7 +56,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private GestureDetector mGestureDetector = null;
 
     private PluginVideoQuality mPluginVideoQuality = null;
-    private boolean updatingVolume = true;
+     private boolean updatingVolume = true;
     private boolean updatingBrightness = true;
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
