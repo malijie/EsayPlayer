@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
+import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.utils.Utils;
 
 import java.io.File;
@@ -47,9 +48,7 @@ public class FullScreenPlayActivity extends BaseActivity{
 
     private VideoView mVideoView = null;
     private RelativeLayout mVolumeLayout = null;
-    private RelativeLayout mBrightnessLayout = null;
     private TextView mTextVolume = null;
-    private TextView mTextBrightness = null;
     private MediaControllerHandler mHandler = new MediaControllerHandler(this);
     private EasyMediaController mEasyMediaController = null;
     private int mScreenWidth;
@@ -60,6 +59,7 @@ public class FullScreenPlayActivity extends BaseActivity{
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
 
+    private PluginBrightness mPluginBrightness = null;
 
 
     @Override
@@ -76,15 +76,16 @@ public class FullScreenPlayActivity extends BaseActivity{
     public void initViews() {
         mVideoView = (VideoView) findViewById(R.id.id_fullscreen_video_view);
         mVolumeLayout = (RelativeLayout) findViewById(R.id.id_vb_layout_volume);
-        mBrightnessLayout = (RelativeLayout) findViewById(R.id.id_vb_layout_brightness);
         mTextVolume = (TextView) findViewById(R.id.id_vb_text_volume);
-        mTextBrightness = (TextView) findViewById(R.id.id_vb_text_brightness);
+
 
         mEasyMediaController = new EasyMediaController(this,this,mVideoView);
         mVideoView.setVideoPath(FILE_PATH);
         mVideoView.setMediaController(mEasyMediaController);
         mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
         mVideoView.requestFocus();
+
+        mPluginBrightness = new PluginBrightness(this);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class FullScreenPlayActivity extends BaseActivity{
                      break;
 
                  case MSG_HIDE_BRIGHTNESS_UI:
-                     mBrightnessLayout.setVisibility(View.GONE);
+                     mPluginBrightness.hideBrightnessUI();
                      break;
 
                  case MSG_HIDE_VOLUME_UI:
@@ -243,25 +244,26 @@ public class FullScreenPlayActivity extends BaseActivity{
     }
 
     private void onBrightnessSlide(int deltaY){
-        Log.mlj("bright visible = "+  mBrightnessLayout.getVisibility());
-        mBrightnessLayout.setVisibility(View.VISIBLE);
-
-        if(mBrightness + (deltaY/20) <=0){
-            mBrightness = 0;
-        }else if(mBrightness + (deltaY/20) >=255f){
-            mBrightness = 255;
-        }else{
-            mBrightness += deltaY/20;
-        }
-
-        Utils.changeAppBrightness(this, mBrightness);
-
-        int percent =  mBrightness*100/255 ;
-        mTextBrightness.setText(percent + "%");
-
-        updatingFastBack = false;
-        updatingVolume = false;
-        updatingFastForward = false;
+//        Log.mlj("bright visible = "+  mBrightnessLayout.getVisibility());
+//        mBrightnessLayout.setVisibility(View.VISIBLE);
+//
+//        if(mBrightness + (deltaY/20) <=0){
+//            mBrightness = 0;
+//        }else if(mBrightness + (deltaY/20) >=255f){
+//            mBrightness = 255;
+//        }else{
+//            mBrightness += deltaY/20;
+//        }
+//
+//        Utils.changeAppBrightness(this, mBrightness);
+//
+//        int percent =  mBrightness*100/255 ;
+//        mTextBrightness.setText(percent + "%");
+//
+//        updatingFastBack = false;
+//        updatingVolume = false;
+//        updatingFastForward = false;
+        mPluginBrightness.onBrightnessSlide(deltaY);
 
     }
 

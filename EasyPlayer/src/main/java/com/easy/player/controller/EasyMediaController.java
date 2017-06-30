@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.base.PlayerMessage;
+import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.utils.SharePreferenceUtil;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
-import com.ldoublem.loadingviewlib.view.LVCircularRing;
 
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.utils.Log;
@@ -44,7 +44,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private TextView mTextBattery;
     private TextView mTextCurrentTime;
     private TextView mTextVideoQuality = null;
-    private RelativeLayout mLayoutBrightness;
     private RelativeLayout mLayoutVolume;
     private ImageView mImageFastBack = null;
     private ImageView mImageFastForward = null;
@@ -56,7 +55,8 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private GestureDetector mGestureDetector = null;
 
     private PluginVideoQuality mPluginVideoQuality = null;
-     private boolean updatingVolume = true;
+    private PluginBrightness mPluginBrightness = null;
+    private boolean updatingVolume = true;
     private boolean updatingBrightness = true;
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
@@ -81,7 +81,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mVideoView = videoView;
         mContext = context;
         mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
-
+        mPluginBrightness = new PluginBrightness(mActivity);
         initListener();
         initData();
     }
@@ -231,7 +231,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
-        mLayoutBrightness = (RelativeLayout) v.findViewById(R.id.id_vb_layout_brightness);
         mLayoutVolume = (RelativeLayout) v.findViewById(R.id.id_vb_layout_volume);
 //        mImageFastBack  = (ImageView) findViewById(R.id.id_controller_img_fast_back);
 //        mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
@@ -321,7 +320,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
             //右半屏,调节亮度
             if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
                 Log.mlj("=====调节亮度====");
-                onBrightnessSlide(deltaY);
+                mPluginBrightness.onBrightnessSlide(deltaY);
 
             }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
                 //左半屏，调节音量
@@ -346,31 +345,31 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
     }
 
-    private void onBrightnessSlide(int deltaY){
-        mLayoutBrightness.setVisibility(View.VISIBLE);
-        mLayoutVolume.setVisibility(View.GONE);
-
-
-        if(mBrightness + (deltaY/20) <=0){
-            mBrightness = 0;
-        }else if(mBrightness + (deltaY/20) >=255f){
-            mBrightness = 255;
-        }else{
-            mBrightness += deltaY/20;
-        }
-        Utils.changeAppBrightness(mActivity, mBrightness);
-
-        int percent =  mBrightness*100/255 ;
-        mTextBrightness.setText(percent + "%");
-
-        updatingFastBack = false;
-        updatingVolume = false;
-        updatingFastForward = false;
-    }
+//    private void onBrightnessSlide(int deltaY){
+//        mLayoutBrightness.setVisibility(View.VISIBLE);
+//        mLayoutVolume.setVisibility(View.GONE);
+//
+//
+//        if(mBrightness + (deltaY/20) <=0){
+//            mBrightness = 0;
+//        }else if(mBrightness + (deltaY/20) >=255f){
+//            mBrightness = 255;
+//        }else{
+//            mBrightness += deltaY/20;
+//        }
+//        Utils.changeAppBrightness(mActivity, mBrightness);
+//
+//        int percent =  mBrightness*100/255 ;
+//        mTextBrightness.setText(percent + "%");
+//
+//        updatingFastBack = false;
+//        updatingVolume = false;
+//        updatingFastForward = false;
+//    }
 
     private void onVolumeSlide(int deltaY){
         mLayoutVolume.setVisibility(View.VISIBLE);
-        mLayoutBrightness.setVisibility(View.GONE);
+//        mLayoutBrightness.setVisibility(View.GONE);
 
         int savedVolume = Utils.getPlayerVolume();
         int volume;
@@ -491,7 +490,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         updatingFastForward = true;
         mSeekDelta = 0;
 
-        mLayoutBrightness.setVisibility(View.GONE);
+        mPluginBrightness.hideBrightnessUI();
         mLayoutVolume.setVisibility(View.GONE);
 //        mImageFastForward.setVisibility(View.GONE);
 //        mImageFastBack.setVisibility(View.GONE);

@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -31,6 +32,11 @@ public class Utils {
     public static View getView(int resId){
         return LayoutInflater.from(EasyPlayer.sContext).inflate(resId,null);
     }
+
+    public static View getView(int resId,ViewGroup parent){
+        return LayoutInflater.from(EasyPlayer.sContext).inflate(resId,parent);
+    }
+
 
     public static int getColor(int colorId){
         return EasyPlayer.sContext.getResources().getColor(colorId);
