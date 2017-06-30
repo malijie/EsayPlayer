@@ -12,10 +12,11 @@ import android.support.annotation.Nullable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
-import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
 
 import java.io.File;
@@ -25,7 +26,6 @@ import io.vov.vitamio.utils.Log;
 import io.vov.vitamio.widget.VideoView;
 
 import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_HIGH;
-import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_LOW;
 
 /**
  * Created by malijie on 2017/6/9.
@@ -34,6 +34,9 @@ import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_LOW;
 public class FullScreenPlayActivity extends BaseActivity{
     private static final int MSG_UPDATE_CURRENT_TIME = 1;
     private static final int MSG_UPDATE_BATTERY = 2;
+    private static final int MSG_HIDE_BRIGHTNESS_UI = 3;
+    private static final int MSG_HIDE_VOLUME_UI = 4;
+
     private static final long UPDATE_TIME_FREQUENCE = 60 * 1000;
     private GestureDetector mGestureDetector = null;
 
@@ -43,6 +46,10 @@ public class FullScreenPlayActivity extends BaseActivity{
 
 
     private VideoView mVideoView = null;
+    private RelativeLayout mVolumeLayout = null;
+    private RelativeLayout mBrightnessLayout = null;
+    private TextView mTextVolume = null;
+    private TextView mTextBrightness = null;
     private MediaControllerHandler mHandler = new MediaControllerHandler(this);
     private EasyMediaController mEasyMediaController = null;
     private int mScreenWidth;
@@ -53,35 +60,41 @@ public class FullScreenPlayActivity extends BaseActivity{
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fullscreen_play_layout);
-        mVideoView = (VideoView) findViewById(R.id.id_video_view);
+
+        initViews();
+        initData();
+
+    }
+
+    @Override
+    public void initViews() {
+        mVideoView = (VideoView) findViewById(R.id.id_fullscreen_video_view);
+        mVolumeLayout = (RelativeLayout) findViewById(R.id.id_vb_layout_volume);
+        mBrightnessLayout = (RelativeLayout) findViewById(R.id.id_vb_layout_brightness);
+        mTextVolume = (TextView) findViewById(R.id.id_vb_text_volume);
+        mTextBrightness = (TextView) findViewById(R.id.id_vb_text_brightness);
 
         mEasyMediaController = new EasyMediaController(this,this,mVideoView);
         mVideoView.setVideoPath(FILE_PATH);
         mVideoView.setMediaController(mEasyMediaController);
         mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
         mVideoView.requestFocus();
-
-        mHandler.sendEmptyMessageDelayed(MSG_UPDATE_CURRENT_TIME,1000);
-
-        registerBroadcastReceiver();
-
-
-        mGestureDetector = new GestureDetector(this,new MyGestureListener());
-    }
-
-    @Override
-    public void initViews() {
-
     }
 
     @Override
     public void initData() {
         mScreenWidth = Utils.getWindowWidth();
         mBrightness = Utils.getAppBrightness(this);
+
+        mHandler.sendEmptyMessageDelayed(MSG_UPDATE_CURRENT_TIME,1000);
+        registerBroadcastReceiver();
+        mGestureDetector = new GestureDetector(this,new MyGestureListener());
     }
 
     private  class MediaControllerHandler extends Handler{
@@ -103,6 +116,14 @@ public class FullScreenPlayActivity extends BaseActivity{
 
                  case MSG_UPDATE_BATTERY:
                      mEasyMediaController.updateBatteryUI(msg.arg1);
+                     break;
+
+                 case MSG_HIDE_BRIGHTNESS_UI:
+                     mBrightnessLayout.setVisibility(View.GONE);
+                     break;
+
+                 case MSG_HIDE_VOLUME_UI:
+                     mVolumeLayout.setVisibility(View.GONE);
                      break;
 
              }
@@ -153,7 +174,7 @@ public class FullScreenPlayActivity extends BaseActivity{
     public boolean onTouchEvent(MotionEvent event) {
         if (mGestureDetector.onTouchEvent(event))
             return true;
-// 处理手势结束
+        // 处理手势结束
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 clearUIState();
@@ -199,6 +220,8 @@ public class FullScreenPlayActivity extends BaseActivity{
 
             return super.onScroll(e1, e2, distanceX, distanceY);
         }
+
+
     }
 
     private void clearUIState(){
@@ -206,6 +229,8 @@ public class FullScreenPlayActivity extends BaseActivity{
         updatingVolume = true;
         updatingBrightness= true;
         updatingFastForward = true;
+
+        mHandler.sendEmptyMessageDelayed(MSG_HIDE_BRIGHTNESS_UI,500);
 //        mSeekDelta = 0;
 //
 //        mImageBrightness.setVisibility(View.GONE);
@@ -218,10 +243,7 @@ public class FullScreenPlayActivity extends BaseActivity{
     }
 
     private void onBrightnessSlide(int deltaY){
-//        mImageBrightness.setVisibility(View.VISIBLE);
-//        mTextBrightness.setVisibility(View.VISIBLE);
-//        mImageVolume.setVisibility(View.GONE);
-
+        mBrightnessLayout.setVisibility(View.VISIBLE);
 
         if(mBrightness + (deltaY/20) <=0){
             mBrightness = 0;
@@ -231,10 +253,16 @@ public class FullScreenPlayActivity extends BaseActivity{
             mBrightness += deltaY/20;
         }
 //        updateBrightnessUI(mBrightness);
+
         Utils.changeAppBrightness(this, mBrightness);
+
+        int percent =  mBrightness*100/255 ;
+        mTextBrightness.setText(percent + "%");
+
         updatingFastBack = false;
         updatingVolume = false;
         updatingFastForward = false;
+
     }
 
     private void onVolumeSlide(int deltaY){

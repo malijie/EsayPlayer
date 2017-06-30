@@ -1,11 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/id_vb_layout_brightness"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/id_vb_image_brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/video_brightness_bg"/>
+        <TextView
+            android:id="@+id/id_vb_text_brightness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/id_vb_image_brightness"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            tools:text="16%"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/id_vb_layout_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/id_vb_image_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/video_volumn_bg"/>
+        <TextView
+            android:id="@+id/id_vb_text_volume"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/id_vb_image_volume"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            tools:text="16%"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

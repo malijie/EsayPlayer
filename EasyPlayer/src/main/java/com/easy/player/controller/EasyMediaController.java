@@ -309,62 +309,62 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            int x = (int) e1.getX();
-            int y = (int) e1.getY();
-            int newX = (int) e2.getX();
-            int newY = (int) e2.getY();
-
-            int deltaX = x-newX;
-            int deltaY = y-newY;
-
-//Log.mlj("screenWidth=" + mScreenWidth +",x=" + x + ",y=" + y +",newX=" + newX + ",newY=" + newY + ",deltaX=" + deltaX + ",deltaY=" + deltaY + ",distanceX=" + distanceX + ",distanceY="+distanceY);
-            //右半屏,调节亮度
-            if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
-                Log.mlj("=====调节亮度====");
-                onBrightnessSlide(deltaY);
-
-            }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
-                //左半屏，调节音量
-                Log.mlj("=====调节音量====");
-                onVolumeSlide(deltaY);
-
-
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
-                //快退
-                Log.mlj("=====快退====");
-                onVideoBackSlide(deltaX);
-
-
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40 && updatingFastForward){
-                //快退
-                Log.mlj("=====快进====");
-                onVideoForwardSlide(deltaX);
-
-            }
+//            int x = (int) e1.getX();
+//            int y = (int) e1.getY();
+//            int newX = (int) e2.getX();
+//            int newY = (int) e2.getY();
+//
+//            int deltaX = x-newX;
+//            int deltaY = y-newY;
+//
+////Log.mlj("screenWidth=" + mScreenWidth +",x=" + x + ",y=" + y +",newX=" + newX + ",newY=" + newY + ",deltaX=" + deltaX + ",deltaY=" + deltaY + ",distanceX=" + distanceX + ",distanceY="+distanceY);
+//            //右半屏,调节亮度
+//            if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
+//                Log.mlj("=====调节亮度====");
+////                onBrightnessSlide(deltaY);
+//
+//            }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
+//                //左半屏，调节音量
+//                Log.mlj("=====调节音量====");
+//                onVolumeSlide(deltaY);
+//
+//
+//            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
+//                //快退
+//                Log.mlj("=====快退====");
+//                onVideoBackSlide(deltaX);
+//
+//
+//            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40 && updatingFastForward){
+//                //快退
+//                Log.mlj("=====快进====");
+//                onVideoForwardSlide(deltaX);
+//
+//            }
 
             return super.onScroll(e1, e2, distanceX, distanceY);
         }
     }
 
-    private void onBrightnessSlide(int deltaY){
-        mImageBrightness.setVisibility(View.VISIBLE);
-        mTextBrightness.setVisibility(View.VISIBLE);
-        mImageVolume.setVisibility(View.GONE);
-
-
-        if(mBrightness + (deltaY/20) <=0){
-            mBrightness = 0;
-        }else if(mBrightness + (deltaY/20) >=255f){
-            mBrightness = 255;
-        }else{
-            mBrightness += deltaY/20;
-        }
-        updateBrightnessUI(mBrightness);
-        Utils.changeAppBrightness(mActivity, mBrightness);
-        updatingFastBack = false;
-        updatingVolume = false;
-        updatingFastForward = false;
-    }
+//    private void onBrightnessSlide(int deltaY){
+//        mImageBrightness.setVisibility(View.VISIBLE);
+//        mTextBrightness.setVisibility(View.VISIBLE);
+//        mImageVolume.setVisibility(View.GONE);
+//
+//
+//        if(mBrightness + (deltaY/20) <=0){
+//            mBrightness = 0;
+//        }else if(mBrightness + (deltaY/20) >=255f){
+//            mBrightness = 255;
+//        }else{
+//            mBrightness += deltaY/20;
+//        }
+//        updateBrightnessUI(mBrightness);
+//        Utils.changeAppBrightness(mActivity, mBrightness);
+//        updatingFastBack = false;
+//        updatingVolume = false;
+//        updatingFastForward = false;
+//    }
 
     private void onVolumeSlide(int deltaY){
         mImageVolume.setVisibility(View.VISIBLE);
@@ -448,72 +448,35 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//
+//
+//        if (mGestureDetector.onTouchEvent(event)){
+//            return true;
+//        }
+//
+//        // 处理手势结束
+//        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+//            case MotionEvent.ACTION_UP:
+//                clearUIState();
+//
+//                break;
+//            case MotionEvent.ACTION_DOWN:
+//                break;
+//
+//            case MotionEvent.ACTION_MOVE:
+//
+//
+//                break;
+//
+//            case MotionEvent.ACTION_SCROLL:
+//
+//                break;
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
-
-        if (mGestureDetector.onTouchEvent(event)){
-            return true;
-        }
-
-        // 处理手势结束
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_UP:
-                clearUIState();
-
-                break;
-            case MotionEvent.ACTION_DOWN:
-                updateBrightnessUI(mBrightness);
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-
-                break;
-
-            case MotionEvent.ACTION_SCROLL:
-
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
-
-    private void updateBrightnessUI(float brightness){
-        int percent = (int)brightness*100/255 ;
-
-        if(percent> 95 && percent <= 100){
-            mImageBrightness.setImageResource(R.mipmap.brightness_full);
-        }else if(percent <=4){
-            mImageBrightness.setImageResource(R.mipmap.brightness_empty);
-        }else if(percent>4 && percent <=15){
-            mImageBrightness.setImageResource(R.mipmap.brightness_10);
-
-        }else if(percent>15 && percent <=25){
-            mImageBrightness.setImageResource(R.mipmap.brightness_20);
-
-        }else if(percent>25 && percent <=35){
-            mImageBrightness.setImageResource(R.mipmap.brightness_30);
-
-        }else if(percent>35 && percent <=45){
-            mImageBrightness.setImageResource(R.mipmap.brightness_40);
-
-        }else if(percent>45 && percent <=55){
-            mImageBrightness.setImageResource(R.mipmap.brightness_50);
-
-        }else if(percent>55 && percent <=65){
-            mImageBrightness.setImageResource(R.mipmap.brightness_60);
-
-        }else if(percent>65 && percent <=75){
-            mImageBrightness.setImageResource(R.mipmap.brightness_70);
-
-        }else if(percent>75 && percent <=85){
-            mImageBrightness.setImageResource(R.mipmap.brightness_80);
-
-        }else if(percent>85 && percent <=95){
-            mImageBrightness.setImageResource(R.mipmap.brightness_90);
-        }
-        mTextBrightness.setText(percent + "%");
-    }
 
     private void updateVolumeUI(float volume){
         int volumePercent = Math.round(volume/15*100);
