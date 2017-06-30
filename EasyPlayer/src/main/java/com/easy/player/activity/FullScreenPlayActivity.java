@@ -230,7 +230,7 @@ public class FullScreenPlayActivity extends BaseActivity{
         updatingBrightness= true;
         updatingFastForward = true;
 
-        mHandler.sendEmptyMessageDelayed(MSG_HIDE_BRIGHTNESS_UI,500);
+        mHandler.sendEmptyMessageDelayed(MSG_HIDE_BRIGHTNESS_UI,0);
 //        mSeekDelta = 0;
 //
 //        mImageBrightness.setVisibility(View.GONE);
@@ -243,6 +243,7 @@ public class FullScreenPlayActivity extends BaseActivity{
     }
 
     private void onBrightnessSlide(int deltaY){
+        Log.mlj("bright visible = "+  mBrightnessLayout.getVisibility());
         mBrightnessLayout.setVisibility(View.VISIBLE);
 
         if(mBrightness + (deltaY/20) <=0){
@@ -252,7 +253,6 @@ public class FullScreenPlayActivity extends BaseActivity{
         }else{
             mBrightness += deltaY/20;
         }
-//        updateBrightnessUI(mBrightness);
 
         Utils.changeAppBrightness(this, mBrightness);
 
