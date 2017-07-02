@@ -54,50 +54,10 @@ public class Utils {
        window.setAttributes(lp);
    }
 
-   public static int getAppBrightness(Activity activity){
-       int systemBrightness = SharePreferenceUtil.loadBrightness();
-       try {
-           if(systemBrightness == 0){
-               systemBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
-           }
-       } catch (Settings.SettingNotFoundException e) {
-           e.printStackTrace();
-       }
-       return systemBrightness;
+   public static void changeAppVolume(int volume){
+       AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
+       mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
    }
-
-
-    public static void changeAppBrightness(Context context, int brightness) {
-        Window window = ((Activity) context).getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        if (brightness == -1) {
-            lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
-        } else {
-            lp.screenBrightness = (brightness <= 0 ? 1 : brightness) / 255f;
-        }
-        window.setAttributes(lp);
-    }
-
-
-    public static int getPlayerVolume(){
-        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
-        int volume = SharePreferenceUtil.loadVolume();
-        if(volume == 0){
-            volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC );
-        }
-        return volume;
-    }
-
-    public static int getPlayerMaxVolume(){
-        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
-        return mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-    }
-
-    public static void setPlayerVolume(int volume){
-        AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
-        SharePreferenceUtil.saveVolume(volume);
-    }
 
     public static int getWindowWidth(){
         return EasyPlayer.sContext.getResources().getDisplayMetrics().widthPixels;

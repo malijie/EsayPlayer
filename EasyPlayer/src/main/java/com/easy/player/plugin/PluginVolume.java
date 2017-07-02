@@ -18,6 +18,8 @@ public class PluginVolume extends BasePlugin{
     private Activity mActivity;
     private RelativeLayout mLayoutVolume = null;
     private TextView mTextVolume = null;
+    private int volume;
+    private int maxVolume = Utils.getPlayerMaxVolume();
     private static PluginVolume sPluginVolume;
 
     private PluginVolume(Activity activity){
@@ -37,28 +39,25 @@ public class PluginVolume extends BasePlugin{
         return sPluginVolume;
     }
 
+
     public void onVolumeSlide(int deltaVolume){
 
         if(canUpdateVolume()){
             disableUpdateOtherPlugin(PLUGIN_TYPE_VOLUME);
             mLayoutVolume.setVisibility(View.VISIBLE);
 
-            int volume;
-            int savedVolume = Utils.getPlayerVolume();
-            int maxVolume = Utils.getPlayerMaxVolume();
-
-            if(savedVolume + (deltaVolume/100) <0){
+            if(volume + (deltaVolume/100) <0){
                 volume = 0;
-            }else if(savedVolume + (deltaVolume/100) >maxVolume){
+            }else if(volume + (deltaVolume/100) >maxVolume){
                 volume = maxVolume;
             }else{
-                volume = savedVolume + (deltaVolume/100);
+                volume += (deltaVolume/100);
             }
 
             int volumePercent = Math.round(volume/15f * 100);
             mTextVolume.setText(volumePercent + "%");
 
-            Utils.setPlayerVolume(volume);
+            Utils.changeAppVolume(volume);
 
         }
 
