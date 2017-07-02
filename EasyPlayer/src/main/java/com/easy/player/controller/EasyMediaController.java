@@ -16,6 +16,7 @@ import com.easy.player.R;
 import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginVideoQuality;
+import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.SharePreferenceUtil;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
@@ -50,14 +51,11 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private TextView mTextBrightness = null;
     private TextView mTextVolume = null;
 
-    private boolean mIsPlaying = false;
-    private int mBrightness;
     private GestureDetector mGestureDetector = null;
 
     private PluginVideoQuality mPluginVideoQuality = null;
     private PluginBrightness mPluginBrightness = null;
-    private boolean updatingVolume = true;
-    private boolean updatingBrightness = true;
+    private PluginVolume mPluginVolume = null;
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
     private long mSeekDelta;
@@ -81,15 +79,18 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mVideoView = videoView;
         mContext = context;
         mGestureDetector = new GestureDetector(context,new PlayerGestureListener());
-        mPluginBrightness = new PluginBrightness(mActivity);
+        initPlugin();
         initListener();
         initData();
     }
 
+    private void initPlugin(){
+        mPluginBrightness =  PluginBrightness.getInstance(mActivity);
+        mPluginVolume = PluginVolume.getInstance(mActivity);
+    }
+
     private void initData() {
         mScreenWidth = Utils.getWindowWidth();
-        mBrightness = Utils.getAppBrightness(mActivity);
-
     }
 
     @Override
@@ -104,7 +105,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private OnClickListener playBtnOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            mIsPlaying = true;
             updatePlayPauseButtonUI(true);
             mVideoView.start();
         }
@@ -116,7 +116,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private OnClickListener pauseBtnOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            mIsPlaying = false;
             updatePlayPauseButtonUI(false);
             mVideoView.pause();
         }
@@ -232,8 +231,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
         mLayoutVolume = (RelativeLayout) v.findViewById(R.id.id_vb_layout_volume);
-//        mImageFastBack  = (ImageView) findViewById(R.id.id_controller_img_fast_back);
-//        mImageFastForward = (ImageView) findViewById(R.id.id_controller_img_fast_forward);
         mTextVolume = (TextView)findViewById(R.id.id_vb_text_volume);
         mTextBrightness =  (TextView)findViewById(R.id.id_vb_text_brightness);
 
@@ -318,14 +315,14 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
 //Log.mlj("screenWidth=" + mScreenWidth +",x=" + x + ",y=" + y +",newX=" + newX + ",newY=" + newY + ",deltaX=" + deltaX + ",deltaY=" + deltaY + ",distanceX=" + distanceX + ",distanceY="+distanceY);
             //右半屏,调节亮度
-            if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingBrightness){
+            if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
                 Log.mlj("=====调节亮度====");
                 mPluginBrightness.onBrightnessSlide(deltaY);
 
-            }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX) && updatingVolume){
+            }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
                 //左半屏，调节音量
                 Log.mlj("=====调节音量====");
-                onVolumeSlide(deltaY);
+                mPluginVolume.onVolumeSlide(deltaY);
 
 
             }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
@@ -345,51 +342,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
     }
 
-//    private void onBrightnessSlide(int deltaY){
-//        mLayoutBrightness.setVisibility(View.VISIBLE);
-//        mLayoutVolume.setVisibility(View.GONE);
-//
-//
-//        if(mBrightness + (deltaY/20) <=0){
-//            mBrightness = 0;
-//        }else if(mBrightness + (deltaY/20) >=255f){
-//            mBrightness = 255;
-//        }else{
-//            mBrightness += deltaY/20;
-//        }
-//        Utils.changeAppBrightness(mActivity, mBrightness);
-//
-//        int percent =  mBrightness*100/255 ;
-//        mTextBrightness.setText(percent + "%");
-//
-//        updatingFastBack = false;
-//        updatingVolume = false;
-//        updatingFastForward = false;
-//    }
-
-    private void onVolumeSlide(int deltaY){
-        mLayoutVolume.setVisibility(View.VISIBLE);
-//        mLayoutBrightness.setVisibility(View.GONE);
-
-        int savedVolume = Utils.getPlayerVolume();
-        int volume;
-        int maxVolume = Utils.getPlayerMaxVolume();
-
-        if(savedVolume + (deltaY/100) <0){
-            volume = 0;
-        }else if(savedVolume + (deltaY/100) >maxVolume){
-            volume = maxVolume;
-        }else{
-            volume = savedVolume + (deltaY/100);
-        }
-
-        updateVolumeUI(volume);
-        Utils.setPlayerVolume(volume);
-
-        updatingFastBack = false;
-        updatingBrightness = false;
-        updatingFastForward = false;
-    }
 
     private void onVideoForwardSlide(int deltaX){
         mVideoView.pause();
@@ -408,8 +360,8 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
 
         mVideoView.seekTo(seekPosition);
-        updatingVolume = false;
-        updatingBrightness = false;
+//        updatingVolume = false;
+//        updatingBrightness = false;
         updatingFastBack = false;
     }
 
@@ -419,9 +371,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mVideoView.pause();
         mVideoView.seekTo(currentPosition - deltaX/10);
 
-        updatingVolume = false;
-
-        updatingBrightness = false;
         updatingFastForward = false;
     }
 
@@ -467,7 +416,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
             case MotionEvent.ACTION_MOVE:
 
-
                 break;
 
             case MotionEvent.ACTION_SCROLL:
@@ -478,22 +426,13 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     }
 
 
-    private void updateVolumeUI(float volume){
-        int volumePercent = Math.round(volume/15*100);
-        mTextVolume.setText(volumePercent + "%");
-    }
-
     private void clearUIState(){
         updatingFastBack = true;
-        updatingVolume = true;
-        updatingBrightness= true;
         updatingFastForward = true;
         mSeekDelta = 0;
 
         mPluginBrightness.hideBrightnessUI();
-        mLayoutVolume.setVisibility(View.GONE);
-//        mImageFastForward.setVisibility(View.GONE);
-//        mImageFastBack.setVisibility(View.GONE);
+        mPluginVolume.hideVolumeUI();
 
     }
 

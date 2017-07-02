@@ -19,40 +19,63 @@ import io.vov.vitamio.utils.Log;
 
 public class PluginBrightness extends BasePlugin {
     private RelativeLayout mLayoutBrightness = null;
-    private int mBrightness;
     private Activity mActivity = null;
     private TextView mTextBrightness = null;
+    private static PluginBrightness sPluginBrightness = null;
 
-    public PluginBrightness(Activity activity){
+    private int brightness;
+
+    private PluginBrightness(Activity activity){
         mActivity = activity;
         mLayoutBrightness = (RelativeLayout) activity.findViewById(R.id.id_vb_layout_brightness);
         mTextBrightness = (TextView) activity.findViewById(R.id.id_vb_text_brightness);
     }
 
-    public void onBrightnessSlide(int deltaY){
-        mLayoutBrightness.setVisibility(View.VISIBLE);
+    public static PluginBrightness getInstance(Activity activity){
+        if(sPluginBrightness == null){
+            synchronized (PluginBrightness.class){
+                if(sPluginBrightness == null){
+                    sPluginBrightness = new PluginBrightness(activity);
+                }
+            }
+        }
+        return sPluginBrightness;
+    }
 
-        if(mBrightness + (deltaY/20) <=0){
-            mBrightness = 0;
-        }else if(mBrightness + (deltaY/20) >=255f){
-            mBrightness = 255;
-        }else{
-            mBrightness += deltaY/20;
+
+
+    public void onBrightnessSlide(int deltaBrightness){
+        if(canUpdateBrightness()){
+            disableUpdateOtherPlugin(PLUGIN_TYPE_BRIGHTNESS);
+            mLayoutBrightness.setVisibility(View.VISIBLE);
+
+            if(brightness + (deltaBrightness/20) <=0){
+                brightness = 0;
+            }else if(brightness + (deltaBrightness/20) >=255f){
+                brightness = 255;
+            }else{
+                brightness += deltaBrightness/20;
+            }
+
+            Utils.changeAppBrightness(mActivity, brightness);
+
+            int percent =  brightness*100/255 ;
+            mTextBrightness.setText(percent + "%");
+
         }
 
-        Utils.changeAppBrightness(mActivity, mBrightness);
-
-        int percent =  mBrightness*100/255 ;
-        mTextBrightness.setText(percent + "%");
-
-        updatingFastBack = false;
-        updatingVolume = false;
-        updatingFastForward = false;
     }
 
     public void hideBrightnessUI(){
         if(mLayoutBrightness != null){
             mLayoutBrightness.setVisibility(View.GONE);
+            updatingBrightness = true;
         }
     }
+
+    private boolean canUpdateBrightness(){
+        return updatingBrightness;
+    }
+
+
 }

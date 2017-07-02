@@ -55,28 +55,17 @@ public class Utils {
    }
 
    public static int getAppBrightness(Activity activity){
-       int systemBrightness = 0;
+       int systemBrightness = SharePreferenceUtil.loadBrightness();
        try {
-           systemBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+           if(systemBrightness == 0){
+               systemBrightness = Settings.System.getInt(activity.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+           }
        } catch (Settings.SettingNotFoundException e) {
            e.printStackTrace();
        }
        return systemBrightness;
    }
 
-    public static float getScreenBrightness(Activity activity){
-        Window window = activity.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        return lp.screenBrightness;
-    }
-
-    public static void setScreenBrightness(Activity activity,float value){
-
-        Window window = activity.getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.screenBrightness = value;
-        window.setAttributes(lp);
-    }
 
     public static void changeAppBrightness(Context context, int brightness) {
         Window window = ((Activity) context).getWindow();
@@ -88,6 +77,7 @@ public class Utils {
         }
         window.setAttributes(lp);
     }
+
 
     public static int getPlayerVolume(){
         AudioManager mAudioManager = (AudioManager) EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
