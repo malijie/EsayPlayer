@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/id_fb_layout_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/id_fb_image_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/fast_forward"/>
+        <TextView
+            android:id="@+id/id_fb_text_forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/id_fb_image_forward"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            tools:text="16%"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/id_fb_layout_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/id_fb_image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/fast_back"/>
+        <TextView
+            android:id="@+id/id_fb_text_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@id/id_fb_image_back"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            tools:text="16%"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
