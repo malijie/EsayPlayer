@@ -45,6 +45,7 @@ public class PluginBrightness extends BasePlugin {
 
 
     public void onBrightnessSlide(int deltaBrightness){
+Log.mlj("canUpdateBrightness() = " + canUpdateBrightness());
         if(canUpdateBrightness()){
             disableUpdateOtherPlugin(PLUGIN_TYPE_BRIGHTNESS);
             mLayoutBrightness.setVisibility(View.VISIBLE);
@@ -70,6 +71,7 @@ public class PluginBrightness extends BasePlugin {
         if(mLayoutBrightness != null){
             mLayoutBrightness.setVisibility(View.GONE);
             updatingBrightness = true;
+            sPluginBrightness = null;
         }
     }
 
