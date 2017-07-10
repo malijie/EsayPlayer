@@ -1,5 +1,6 @@
 package com.easy.player.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,9 +9,11 @@ import android.support.v4.view.ViewPager;
 import android.view.Window;
 
 import com.easy.player.R;
+import com.easy.player.config.Profile;
 import com.easy.player.fragment.LocalVideoFragment;
 import com.easy.player.fragment.NetworkVideoFragment;
 import com.easy.player.fragment.VpSimpleFragment;
+import com.easy.player.service.MediaScanService;
 import com.easy.player.widget.ViewPagerIndicator;
 
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class MainActivity extends FragmentActivity {
 		
 		mViewpager.setAdapter(mAdapter);
 		mViewPagerIndicator.setViewPager(mViewpager, 0);
+		startService(new Intent(this,MediaScanService.class).putExtra(Profile.getScanDirectoryKey(),Profile.getScanDirectory()));
+
 	}
 
 	/**

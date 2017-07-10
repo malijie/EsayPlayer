@@ -17,13 +17,6 @@
         android:name=".EasyPlayer"
         android:theme="@style/AppTheme">
 
-        <!--<activity android:name=".activity.MainActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
@@ -31,16 +24,21 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-        <activity android:name=".activity.FullScreenPlayActivity"
-                android:screenOrientation="sensorLandscape"
-                android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        <activity
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:name=".activity.FullScreenPlayActivity"/>
+
+
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-
+        <service
+            android:name=".service.MediaScanService"/>
 
     </application>
 
