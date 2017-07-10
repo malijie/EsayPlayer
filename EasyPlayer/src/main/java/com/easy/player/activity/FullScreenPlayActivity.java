@@ -33,6 +33,7 @@ import static io.vov.vitamio.MediaPlayer.VIDEOQUALITY_HIGH;
  */
 
 public class FullScreenPlayActivity extends BaseActivity{
+    private static final String TAG = FullScreenPlayActivity.class.getSimpleName();
     private static final int MSG_UPDATE_CURRENT_TIME = 1;
     private static final int MSG_UPDATE_BATTERY = 2;
     private static final int MSG_HIDE_PLUGIN_UI = 3;
@@ -61,6 +62,7 @@ public class FullScreenPlayActivity extends BaseActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.mlj(TAG,"onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fullscreen_play_layout);
 
@@ -279,4 +281,6 @@ public class FullScreenPlayActivity extends BaseActivity{
 //        updatingBrightness = false;
 //        updatingFastForward = false;
     }
+
+
 }

@@ -70,6 +70,7 @@ public class PluginBrightness extends BasePlugin {
         if(mLayoutBrightness != null){
             mLayoutBrightness.setVisibility(View.GONE);
             updatingBrightness = true;
+            sPluginBrightness = null;
         }
     }
 

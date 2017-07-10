@@ -71,6 +71,7 @@ public class PluginVolume extends BasePlugin{
         if(mLayoutVolume != null){
             updatingVolume = true;
             mLayoutVolume.setVisibility(View.GONE);
+            sPluginVolume = null;
         }
     }
 }
