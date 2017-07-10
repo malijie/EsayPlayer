@@ -21,14 +21,13 @@ public class PluginFastForward extends BasePlugin{
     private RelativeLayout mLayoutForward = null;
     private TextView mTextTime = null;
     private VideoView mVideoView = null;
-    int mSeekDelta;
-    long currentPosition;
+    private int mSeekDelta;
+    private long currentPosition;
 
     private PluginFastForward(Activity activity, VideoView videoView){
         mActivity = activity;
         mVideoView = videoView;
         mLayoutForward = (RelativeLayout) activity.findViewById(R.id.id_fb_layout_forward);
-Log.mlj("mLayoutForward===" + mLayoutForward);
         mTextTime = (TextView) activity.findViewById(R.id.id_fb_text_forward);
     }
 
@@ -56,9 +55,7 @@ Log.mlj("mLayoutForward===" + mLayoutForward);
             return;
         }
         mVideoView.seekTo(seekPosition);
-        updatingVolume = false;
-        updatingBrightness = false;
-        updatingFastBack = false;
+        disableUpdateOtherPlugin(PLUGIN_TYPE_FASTFORWARD);
     }
 
 
@@ -66,7 +63,7 @@ Log.mlj("mLayoutForward===" + mLayoutForward);
     public void hide() {
         if(mLayoutForward != null){
             mLayoutForward.setVisibility(View.GONE);
-            updatingBrightness = true;
+            updatingFastForward = true;
             sPluginFastForward = null;
         }
     }

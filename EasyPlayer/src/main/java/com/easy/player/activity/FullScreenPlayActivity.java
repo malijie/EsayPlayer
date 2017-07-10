@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
 import com.easy.player.plugin.PluginBrightness;
+import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.Utils;
@@ -42,26 +43,21 @@ public class FullScreenPlayActivity extends BaseActivity{
     private static final long UPDATE_TIME_FREQUENCE = 60 * 1000;
     private GestureDetector mGestureDetector = null;
 
-
     private String FILE_PATH = Environment.getExternalStorageDirectory() +
             File.separator + "apk" + File.separator + "test.mkv";
 
-
     private VideoView mVideoView = null;
-    private RelativeLayout mVolumeLayout = null;
-    private TextView mTextVolume = null;
-    private PluginBrightness mPluginBrightness = null;
-    private PluginVolume mPluginVolume = null;
+
     private MediaControllerHandler mHandler = new MediaControllerHandler(this);
     private EasyMediaController mEasyMediaController = null;
     private int mScreenWidth;
 
-    private boolean updatingFastBack = true;
-    private boolean updatingFastForward = true;
 
 
+    private PluginBrightness mPluginBrightness = null;
+    private PluginVolume mPluginVolume = null;
+    private PluginFastBack mPluginBack = null;
     private PluginFastForward mPluginFastForward = null;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,8 +73,6 @@ public class FullScreenPlayActivity extends BaseActivity{
     @Override
     public void initViews() {
         mVideoView = (VideoView) findViewById(R.id.id_fullscreen_video_view);
-        mVolumeLayout = (RelativeLayout) findViewById(R.id.id_vb_layout_volume);
-        mTextVolume = (TextView) findViewById(R.id.id_vb_text_volume);
 
 
         mEasyMediaController = new EasyMediaController(this,this,mVideoView);
@@ -95,7 +89,7 @@ public class FullScreenPlayActivity extends BaseActivity{
         mPluginBrightness = PluginBrightness.getInstance(this);
         mPluginVolume = PluginVolume.getInstance(this);
         mPluginFastForward = PluginFastForward.getInstance(this,mVideoView);
-
+        mPluginBack =  PluginFastBack.getInstance(this,mVideoView);
     }
 
     @Override
@@ -132,6 +126,7 @@ public class FullScreenPlayActivity extends BaseActivity{
                      mPluginBrightness.hide();
                      mPluginVolume.hide();
                      mPluginFastForward.hide();
+                     mPluginBack.hide();
                      break;
 
 
@@ -213,13 +208,13 @@ public class FullScreenPlayActivity extends BaseActivity{
                 onVolumeSlide(deltaY);
 
 
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
+            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40){
                 //快退
                 Log.mlj("=====快退====");
                 onVideoBackSlide(deltaX);
 
 
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40 && updatingFastForward){
+            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40){
                 //快退
                 Log.mlj("=====快进====");
                 onVideoForwardSlide(deltaX);
@@ -233,20 +228,7 @@ public class FullScreenPlayActivity extends BaseActivity{
     }
 
     private void clearUIState(){
-        updatingFastBack = true;
-//        updatingVolume = true;
-//        updatingBrightness= true;
-        updatingFastForward = true;
-
         mHandler.sendEmptyMessage(MSG_HIDE_PLUGIN_UI);
-//        mSeekDelta = 0;
-//
-//        mImageBrightness.setVisibility(View.GONE);
-//        mImageVolume.setVisibility(View.GONE);
-//        mImageFastForward.setVisibility(View.GONE);
-//        mImageFastBack.setVisibility(View.GONE);
-//        mTextVolume.setVisibility(View.GONE);
-//        mTextBrightness.setVisibility(View.GONE);
 
     }
 
@@ -259,37 +241,11 @@ public class FullScreenPlayActivity extends BaseActivity{
     }
 
     private void onVideoForwardSlide(int deltaX){
-//        mVideoView.pause();
-//
-//        if(updatingFastForward){
-//            currentPosition = mVideoView.getCurrentPosition();
-//        }
-//
-//        mImageFastForward.setVisibility(VISIBLE);
-//        mSeekDelta += Math.abs(deltaX/100);
-//
-//        long seekPosition = currentPosition + mSeekDelta;
-//        if(seekPosition >= mVideoView.getDuration()){
-//            ToastManager.showShortMsg("视频已播放完毕");
-//            return;
-//        }
-//
-//        mVideoView.seekTo(seekPosition);
-//        updatingVolume = false;
-//        updatingBrightness = false;
-//        updatingFastBack = false;
+        mPluginFastForward.onForwardSlide(deltaX);
     }
 
     private void onVideoBackSlide(int deltaX){
-//        long currentPosition = mVideoView.getCurrentPosition();
-//        mImageFastBack.setVisibility(View.VISIBLE);
-//        mVideoView.pause();
-//        mVideoView.seekTo(currentPosition - deltaX/10);
-//
-//        updatingVolume = false;
-//
-//        updatingBrightness = false;
-//        updatingFastForward = false;
+        mPluginBack.onBackSlide(deltaX);
     }
 
 

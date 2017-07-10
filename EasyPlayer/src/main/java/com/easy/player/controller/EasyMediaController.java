@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.easy.player.R;
 import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginBrightness;
+import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
 import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.plugin.PluginVolume;
@@ -46,22 +47,16 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private TextView mTextBattery;
     private TextView mTextCurrentTime;
     private TextView mTextVideoQuality = null;
-    private RelativeLayout mLayoutVolume;
-    private ImageView mImageFastBack = null;
-    private ImageView mImageFastForward = null;
-    private TextView mTextBrightness = null;
-    private TextView mTextVolume = null;
 
     private GestureDetector mGestureDetector = null;
 
     private PluginVideoQuality mPluginVideoQuality = null;
     private PluginBrightness mPluginBrightness = null;
     private PluginFastForward mPluginFastForward = null;
+    private PluginFastBack mPluginFastBack = null;
     private PluginVolume mPluginVolume = null;
-    private boolean updatingFastBack = true;
-    private boolean updatingFastForward = true;
+
     private long mSeekDelta;
-    private long currentPosition;
     private int mScreenWidth;
 
 
@@ -90,6 +85,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginBrightness =  PluginBrightness.getInstance(mActivity);
         mPluginVolume = PluginVolume.getInstance(mActivity);
         mPluginFastForward = PluginFastForward.getInstance(mActivity,mVideoView);
+        mPluginFastBack = PluginFastBack.getInstance(mActivity,mVideoView);
     }
 
     private void initData() {
@@ -233,9 +229,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
         mImageButtery = (ImageView)v.findViewById(R.id.id_controller_img_battery);
         mTextVideoQuality = (TextView) v.findViewById(R.id.id_controller_text_quality);
-        mLayoutVolume = (RelativeLayout) v.findViewById(R.id.id_vb_layout_volume);
-        mTextVolume = (TextView)findViewById(R.id.id_vb_text_volume);
-        mTextBrightness =  (TextView)findViewById(R.id.id_vb_text_brightness);
 
         mButtonPlay.setOnClickListener(playBtnOnClickListener);
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
@@ -328,16 +321,16 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
                 mPluginVolume.onVolumeSlide(deltaY);
 
 
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40 && updatingFastBack){
+            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40){
                 //快退
                 Log.mlj("=====快退====");
-                onVideoBackSlide(deltaX);
+                mPluginFastBack.onBackSlide(deltaX);
 
 
-            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40 && updatingFastForward){
+            }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40){
                 //快退
                 Log.mlj("=====快进====");
-                onVideoForwardSlide(deltaX);
+                mPluginFastForward.onForwardSlide(deltaX);
 
             }
 
@@ -345,19 +338,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         }
     }
 
-
-    private void onVideoForwardSlide(int deltaX){
-        mPluginFastForward.onForwardSlide(deltaX);
-    }
-
-    private void onVideoBackSlide(int deltaX){
-        long currentPosition = mVideoView.getCurrentPosition();
-        mImageFastBack.setVisibility(VISIBLE);
-        mVideoView.pause();
-        mVideoView.seekTo(currentPosition - deltaX/10);
-
-        updatingFastForward = false;
-    }
 
 
     public void updateBatteryUI(int battery) {
@@ -412,13 +392,12 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
 
     private void clearUIState(){
-        updatingFastBack = true;
-        updatingFastForward = true;
         mSeekDelta = 0;
 
         mPluginBrightness.hide();
         mPluginVolume.hide();
         mPluginFastForward.hide();
+        mPluginFastBack.hide();
 
     }
 
