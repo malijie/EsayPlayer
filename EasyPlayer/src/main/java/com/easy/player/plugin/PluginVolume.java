@@ -19,7 +19,7 @@ public class PluginVolume extends BasePlugin{
     private RelativeLayout mLayoutVolume = null;
     private TextView mTextVolume = null;
     private int volume;
-    private int maxVolume = Utils.getPlayerMaxVolume();
+    private int maxVolume = Utils.getMaxVolume();
     private static PluginVolume sPluginVolume;
 
     private PluginVolume(Activity activity){
@@ -67,7 +67,9 @@ public class PluginVolume extends BasePlugin{
         return updatingVolume;
     }
 
-    public void hideVolumeUI(){
+
+    @Override
+    public void hide() {
         if(mLayoutVolume != null){
             updatingVolume = true;
             mLayoutVolume.setVisibility(View.GONE);

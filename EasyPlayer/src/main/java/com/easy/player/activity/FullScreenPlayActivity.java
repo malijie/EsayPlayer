@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
 import com.easy.player.plugin.PluginBrightness;
+import com.easy.player.plugin.PluginFastForward;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.Utils;
 
@@ -49,6 +50,8 @@ public class FullScreenPlayActivity extends BaseActivity{
     private VideoView mVideoView = null;
     private RelativeLayout mVolumeLayout = null;
     private TextView mTextVolume = null;
+    private PluginBrightness mPluginBrightness = null;
+    private PluginVolume mPluginVolume = null;
     private MediaControllerHandler mHandler = new MediaControllerHandler(this);
     private EasyMediaController mEasyMediaController = null;
     private int mScreenWidth;
@@ -56,8 +59,8 @@ public class FullScreenPlayActivity extends BaseActivity{
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
 
-    private PluginBrightness mPluginBrightness = null;
-    private PluginVolume mPluginVolume = null;
+
+    private PluginFastForward mPluginFastForward = null;
 
 
     @Override
@@ -83,9 +86,15 @@ public class FullScreenPlayActivity extends BaseActivity{
         mVideoView.setMediaController(mEasyMediaController);
         mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
         mVideoView.requestFocus();
+        initPlugins();
 
+
+    }
+
+    private void initPlugins(){
         mPluginBrightness = PluginBrightness.getInstance(this);
         mPluginVolume = PluginVolume.getInstance(this);
+        mPluginFastForward = PluginFastForward.getInstance(this,mVideoView);
 
     }
 
@@ -120,8 +129,9 @@ public class FullScreenPlayActivity extends BaseActivity{
                      break;
 
                  case MSG_HIDE_PLUGIN_UI:
-                     mPluginBrightness.hideBrightnessUI();
-                     mPluginVolume.hideVolumeUI();
+                     mPluginBrightness.hide();
+                     mPluginVolume.hide();
+                     mPluginFastForward.hide();
                      break;
 
 

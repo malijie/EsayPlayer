@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.easy.player.R;
 import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginBrightness;
+import com.easy.player.plugin.PluginFastForward;
 import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.SharePreferenceUtil;
@@ -55,6 +56,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
     private PluginVideoQuality mPluginVideoQuality = null;
     private PluginBrightness mPluginBrightness = null;
+    private PluginFastForward mPluginFastForward = null;
     private PluginVolume mPluginVolume = null;
     private boolean updatingFastBack = true;
     private boolean updatingFastForward = true;
@@ -87,6 +89,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private void initPlugin(){
         mPluginBrightness =  PluginBrightness.getInstance(mActivity);
         mPluginVolume = PluginVolume.getInstance(mActivity);
+        mPluginFastForward = PluginFastForward.getInstance(mActivity,mVideoView);
     }
 
     private void initData() {
@@ -193,7 +196,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
         mVideoView.setVideoQuality(quality);
         updateVideoQualityUI(quality);
-        mPluginVideoQuality.dismiss();
+        mPluginVideoQuality.hide();
         changeQuality(quality);
 
     }
@@ -344,25 +347,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 
 
     private void onVideoForwardSlide(int deltaX){
-        mVideoView.pause();
-
-        if(updatingFastForward){
-            currentPosition = mVideoView.getCurrentPosition();
-        }
-
-        mImageFastForward.setVisibility(VISIBLE);
-        mSeekDelta += Math.abs(deltaX/100);
-
-        long seekPosition = currentPosition + mSeekDelta;
-        if(seekPosition >= mVideoView.getDuration()){
-            ToastManager.showShortMsg("视频已播放完毕");
-            return;
-        }
-
-        mVideoView.seekTo(seekPosition);
-//        updatingVolume = false;
-//        updatingBrightness = false;
-        updatingFastBack = false;
+        mPluginFastForward.onForwardSlide(deltaX);
     }
 
     private void onVideoBackSlide(int deltaX){
@@ -431,8 +416,9 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         updatingFastForward = true;
         mSeekDelta = 0;
 
-        mPluginBrightness.hideBrightnessUI();
-        mPluginVolume.hideVolumeUI();
+        mPluginBrightness.hide();
+        mPluginVolume.hide();
+        mPluginFastForward.hide();
 
     }
 

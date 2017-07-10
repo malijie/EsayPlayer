@@ -62,4 +62,9 @@ public class Utils {
     public static int getWindowWidth(){
         return EasyPlayer.sContext.getResources().getDisplayMetrics().widthPixels;
     }
+
+    public static int getMaxVolume(){
+        AudioManager mAudioManager = (AudioManager)EasyPlayer.sContext.getSystemService(Context.AUDIO_SERVICE);
+        return  mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    }
 }

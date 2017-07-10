@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <include layout="@layout/volume_brightness_layout"/>
+    <include layout="@layout/forward_back_layout"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -31,7 +31,8 @@
         android:id="@+id/id_fb_layout_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/id_fb_image_back"
             android:layout_width="wrap_content"

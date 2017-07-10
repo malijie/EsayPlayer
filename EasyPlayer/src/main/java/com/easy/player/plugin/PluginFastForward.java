@@ -4,36 +4,39 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.easy.player.R;
 import com.easy.player.utils.ToastManager;
+
+import io.vov.vitamio.utils.Log;
+import io.vov.vitamio.widget.VideoView;
 
 /**
  * Created by malijie on 2017/7/7.
  */
 
-public class FastForwardPlugin extends BasePlugin{
-    private static FastForwardPlugin sPluginFastForward = null;
+public class PluginFastForward extends BasePlugin{
+    private static PluginFastForward sPluginFastForward = null;
     private Activity mActivity = null;
     private RelativeLayout mLayoutForward = null;
     private TextView mTextTime = null;
     private VideoView mVideoView = null;
     int mSeekDelta;
-    int currentPosition;
+    long currentPosition;
 
-    private FastForwardPlugin(Activity activity, VideoView videoView){
+    private PluginFastForward(Activity activity, VideoView videoView){
         mActivity = activity;
         mVideoView = videoView;
         mLayoutForward = (RelativeLayout) activity.findViewById(R.id.id_fb_layout_forward);
+Log.mlj("mLayoutForward===" + mLayoutForward);
         mTextTime = (TextView) activity.findViewById(R.id.id_fb_text_forward);
     }
 
-    public static FastForwardPlugin getInstance(Activity activity,VideoView videoView){
+    public static PluginFastForward getInstance(Activity activity, VideoView videoView){
         if(sPluginFastForward == null){
-            synchronized (FastForwardPlugin.class){
+            synchronized (PluginFastForward.class){
                 if(sPluginFastForward == null){
-                    sPluginFastForward = new FastForwardPlugin(activity,videoView);
+                    sPluginFastForward = new PluginFastForward(activity,videoView);
                 }
             }
         }
@@ -47,7 +50,7 @@ public class FastForwardPlugin extends BasePlugin{
         }
         mLayoutForward.setVisibility(View.VISIBLE);
         mSeekDelta += Math.abs(deltaX/100);
-        int seekPosition = currentPosition + mSeekDelta;
+        long seekPosition = currentPosition + mSeekDelta;
         if(seekPosition >= mVideoView.getDuration()){
             ToastManager.showShortMsg("视频已播放完毕");
             return;
@@ -58,12 +61,13 @@ public class FastForwardPlugin extends BasePlugin{
         updatingFastBack = false;
     }
 
-    public void hideBrightnessUI(){
+
+    @Override
+    public void hide() {
         if(mLayoutForward != null){
             mLayoutForward.setVisibility(View.GONE);
             updatingBrightness = true;
             sPluginFastForward = null;
         }
     }
-
 }

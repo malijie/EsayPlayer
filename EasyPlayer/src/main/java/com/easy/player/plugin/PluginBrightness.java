@@ -66,17 +66,18 @@ public class PluginBrightness extends BasePlugin {
 
     }
 
-    public void hideBrightnessUI(){
-        if(mLayoutBrightness != null){
-            mLayoutBrightness.setVisibility(View.GONE);
-            updatingBrightness = true;
-            sPluginBrightness = null;
-        }
-    }
 
     private boolean canUpdateBrightness(){
         return updatingBrightness;
     }
 
 
+    @Override
+    public void hide() {
+        if(mLayoutBrightness != null){
+            mLayoutBrightness.setVisibility(View.GONE);
+            updatingBrightness = true;
+            sPluginBrightness = null;
+        }
+    }
 }

@@ -86,9 +86,6 @@ public class PluginVideoQuality extends BasePlugin{
         mDialog.show();
     }
 
-    public void dismiss(){
-        mDialog.dismiss();
-    }
 
     private void clearUIState(){
         mTextQualityHigh.setTextColor(Utils.getColor(R.color.white));
@@ -112,6 +109,11 @@ public class PluginVideoQuality extends BasePlugin{
     private ISelectQualityListener qualityListener;
     public void setSelectQualityListener(ISelectQualityListener listener){
         this.qualityListener = listener;
+    }
+
+    @Override
+    public void hide() {
+        mDialog.dismiss();
     }
 
     public interface ISelectQualityListener {

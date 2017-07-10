@@ -41,4 +41,7 @@ public abstract class BasePlugin{
          }
     }
 
+
+    public abstract void hide();
+
 }
