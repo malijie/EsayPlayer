@@ -30,4 +30,7 @@ dependencies {
     compile 'com.ldoublem.loadingview:loadingviewlib:1.0'
     compile 'com.inkapplications.viewpageindicator:library:2.4.3'
     compile project(':vitamio')
+    compile files('libs/ormlite-android-4.42-SNAPSHOT.jar')
+    compile files('libs/ormlite-core-4.42-SNAPSHOT.jar')
+    compile files('libs/pinyin4j-2.5.0.jar')
 }
