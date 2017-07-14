@@ -70,15 +70,18 @@ public class MediaScanService extends Service implements Runnable{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.mlj(TAG,"=====onStartCommand====");
-        mScanDirectory = intent.getStringExtra(Profile.getScanDirectoryKey());
+        if(intent != null){
+            mScanDirectory = intent.getStringExtra(Profile.getScanDirectoryKey());
 
-        if (!mScanMap.containsKey(mScanDirectory)){
-            mScanMap.put(mScanDirectory, "");
+            if (!mScanMap.containsKey(mScanDirectory)){
+                mScanMap.put(mScanDirectory, "");
+            }
+
+            if(SERVICE_SCAN_STATUS == SCAN_STATUS_NORMAL || SERVICE_SCAN_STATUS == SCAN_STATUS_END){
+                new Thread(this).start();
+            }
         }
 
-        if(SERVICE_SCAN_STATUS == SCAN_STATUS_NORMAL || SERVICE_SCAN_STATUS == SCAN_STATUS_END){
-            new Thread(this).start();
-        }
 
 
         return super.onStartCommand(intent, flags, startId);
@@ -109,10 +112,6 @@ public class MediaScanService extends Service implements Runnable{
             }
 
             //任务之间歇息一秒
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
         }
 
         notifyObservers(SCAN_STATUS_END,null);

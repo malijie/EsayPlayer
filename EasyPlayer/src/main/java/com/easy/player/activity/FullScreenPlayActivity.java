@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
+import com.easy.player.entity.POMedia;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
@@ -72,11 +73,13 @@ public class FullScreenPlayActivity extends BaseActivity{
 
     @Override
     public void initViews() {
+        POMedia poMedia = (POMedia) getIntent().getSerializableExtra("po_media");
+        Log.mlj("poMedia==" + poMedia);
+
         mVideoView = (VideoView) findViewById(R.id.id_fullscreen_video_view);
 
-
         mEasyMediaController = new EasyMediaController(this,this,mVideoView);
-        mVideoView.setVideoPath(FILE_PATH);
+        mVideoView.setVideoPath(poMedia.path);
         mVideoView.setMediaController(mEasyMediaController);
         mVideoView.setVideoQuality(VIDEOQUALITY_HIGH);
         mVideoView.requestFocus();

@@ -4,13 +4,14 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.File;
+import java.io.Serializable;
 
 /**
  * Created by malijie on 2017/7/13.
  */
 
 @DatabaseTable(tableName = "media")
-public class POMedia {
+public class POMedia implements Serializable{
     @DatabaseField(generatedId = true)
     public long _id;
     /** 视频标题 */
@@ -70,5 +71,27 @@ public class POMedia {
     public POMedia(String path, String mimeType) {
         this(new File(path));
         this.mime_type = mimeType;
+    }
+
+    @Override
+    public String toString() {
+        return "POMedia{" +
+                "_id=" + _id +
+                ", title='" + title + '\'' +
+                ", title_key='" + title_key + '\'' +
+                ", path='" + path + '\'' +
+                ", last_access_time=" + last_access_time +
+                ", last_modify_time=" + last_modify_time +
+                ", duration=" + duration +
+                ", position=" + position +
+                ", thumb_path='" + thumb_path + '\'' +
+                ", file_size=" + file_size +
+                ", width=" + width +
+                ", height=" + height +
+                ", mime_type='" + mime_type + '\'' +
+                ", type=" + type +
+                ", status=" + status +
+                ", temp_file_size=" + temp_file_size +
+                '}';
     }
 }
