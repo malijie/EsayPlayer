@@ -1,6 +1,8 @@
 package com.easy.player.controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -86,6 +88,25 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginVolume = PluginVolume.getInstance(mActivity);
         mPluginFastForward = PluginFastForward.getInstance(mActivity,mVideoView);
         mPluginFastBack = PluginFastBack.getInstance(mActivity,mVideoView);
+
+        mPluginVideoQuality = new PluginVideoQuality(mActivity);
+        mPluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
+            @Override
+            public void selectHighQuality() {
+                handleChangeQuality(MediaPlayer.VIDEOQUALITY_HIGH);
+
+            }
+
+            @Override
+            public void selectMediumQuality() {
+                handleChangeQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
+            }
+
+            @Override
+            public void selectLowQuality() {
+                handleChangeQuality(MediaPlayer.VIDEOQUALITY_LOW);
+            }
+        });
     }
 
     private void initData() {
@@ -165,24 +186,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private OnClickListener qualityBtnOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            mPluginVideoQuality = new PluginVideoQuality(mContext);
-            mPluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
-                @Override
-                public void selectHighQuality() {
-                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_HIGH);
 
-                }
-
-                @Override
-                public void selectMediumQuality() {
-                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_MEDIUM);
-                }
-
-                @Override
-                public void selectLowQuality() {
-                    handleChangeQuality(MediaPlayer.VIDEOQUALITY_LOW);
-                }
-            });
             mPluginVideoQuality.show();
         }
     };

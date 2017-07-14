@@ -11,6 +11,8 @@ import com.easy.player.R;
 import com.easy.player.utils.SharePreferenceUtil;
 import com.easy.player.utils.Utils;
 
+import io.vov.vitamio.utils.Log;
+
 /**
  * Created by malijie on 2017/6/12.
  */
@@ -28,13 +30,15 @@ public class PluginVideoQuality extends BasePlugin{
     private RelativeLayout mLayoutQualityMedium;
     private RelativeLayout mLayoutQualityLow;
 
+    private Context mContext = null;
 
     public PluginVideoQuality(Context context) {
         v = Utils.getView(R.layout.plugin_quality_layout);
-
+        mContext = context;
         mDialog = new AlertDialog.Builder(context, R.style.dialog)
                 .setView(v)
                 .create();
+
         mLayoutQualityHigh = (RelativeLayout) v.findViewById(R.id.id_plugin_quality_layout_high);
         mLayoutQualityMedium = (RelativeLayout) v.findViewById(R.id.id_plugin_quality_layout_medium);
         mLayoutQualityLow = (RelativeLayout) v.findViewById(R.id.id_plugin_quality_layout_low);
@@ -83,7 +87,7 @@ public class PluginVideoQuality extends BasePlugin{
     };
 
     public void show(){
-        mDialog.show();
+            mDialog.show();
     }
 
 

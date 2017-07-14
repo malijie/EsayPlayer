@@ -74,7 +74,6 @@ public class FullScreenPlayActivity extends BaseActivity{
     @Override
     public void initViews() {
         POMedia poMedia = (POMedia) getIntent().getSerializableExtra("po_media");
-        Log.mlj("poMedia==" + poMedia);
 
         mVideoView = (VideoView) findViewById(R.id.id_fullscreen_video_view);
 
@@ -131,7 +130,6 @@ public class FullScreenPlayActivity extends BaseActivity{
                      mPluginFastForward.hide();
                      mPluginBack.hide();
                      break;
-
 
              }
 

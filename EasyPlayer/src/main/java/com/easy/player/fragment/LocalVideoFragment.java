@@ -159,7 +159,6 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ToastManager.showShortMsg("onItemClick==" + position);
         Intent i = new Intent(getActivity(),FullScreenPlayActivity.class);
         i.putExtra("po_media", mMediaList.get(position));
         startActivity(i);
