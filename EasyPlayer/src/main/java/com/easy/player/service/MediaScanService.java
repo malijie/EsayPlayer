@@ -1,17 +1,25 @@
 package com.easy.player.service;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 
+import com.easy.player.activity.MainActivity;
 import com.easy.player.config.Profile;
 import com.easy.player.database.DBHelper;
 import com.easy.player.entity.POMedia;
+import com.easy.player.fragment.LocalVideoFragment;
 import com.easy.player.utils.FileUtils;
 import com.easy.player.utils.PinyinUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,18 +36,27 @@ public class MediaScanService extends Service implements Runnable{
 
     private ConcurrentHashMap<String,String> mScanMap = new ConcurrentHashMap<String, String>();
     private Map<String, Object> mDbWhere = new HashMap<String, Object>(2);
+    private ArrayList<IMediaObserver> observers = new ArrayList<>();
 
     private volatile int SERVICE_SCAN_STATUS = SCAN_STATUS_NORMAL ;
-    private static final int SCAN_STATUS_NORMAL = 0;
-    private static final int SCAN_STATUS_START = 1;
-    private static final int SCAN_STATUS_END = 2;
+    public static final int SCAN_STATUS_NORMAL = 0;
+    public static final int SCAN_STATUS_START = 1;
+    public static final int SCAN_STATUS_END = 2;
+    public static final int SCAN_STATUS_RUNNING = 3;
 
     private DBHelper<POMedia> mDBHelper = null;
 
+    public MediaScanServiceBinder mBinder = new MediaScanServiceBinder();
+
+    public class MediaScanServiceBinder extends Binder{
+        public MediaScanService getService(){
+            return MediaScanService.this;
+        }
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return mBinder;
     }
 
     @Override
@@ -74,7 +91,6 @@ public class MediaScanService extends Service implements Runnable{
     }
 
     private void scan(){
-        Log.mlj(TAG,"=====scan====");
 
         while (mScanMap.keySet().size() > 0) {
             String path = "";
@@ -82,13 +98,11 @@ public class MediaScanService extends Service implements Runnable{
                 path = key;
                 break;
             }
-            Log.mlj("=====path====" + path);
             if (mScanMap.containsKey(path)) {
                 String mimeType = mScanMap.get(path);
                 if ("".equals(mimeType)) {
                     scanDirectory(path);
                 } else {
-                    Log.mlj("=====scanFile====path====" + path + "====mimeType=" + mimeType);
                     scanFile(path, mimeType);
                 }
                 //扫描完成一个
@@ -101,6 +115,8 @@ public class MediaScanService extends Service implements Runnable{
             } catch (InterruptedException e) {
             }
         }
+
+        notifyObservers(SCAN_STATUS_END,null);
     }
 
     /** 扫描文件 */
@@ -157,7 +173,34 @@ public class MediaScanService extends Service implements Runnable{
             mDBHelper.create(media);
 
             //扫描到一个
-//            notifyObservers(SCAN_STATUS_RUNNING, media);
+            notifyObservers(SCAN_STATUS_RUNNING, media);
         }
+    }
+
+    private void notifyObservers(int flag, POMedia media) {
+        mHandler.sendMessage(mHandler.obtainMessage(flag,media));
+    }
+
+    public void addObserver(IMediaObserver observer){
+        synchronized (this){
+            if(!observers.contains(observer)){
+                observers.add(observer);
+            }
+        }
+    }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            for(int i=0;i<observers.size();i++){
+                IMediaObserver observer = observers.get(i);
+                observer.update(msg.what,(POMedia)msg.obj);
+            }
+
+        }
+    };
+
+    public interface IMediaObserver{
+        void update(int flag,POMedia media);
     }
 }

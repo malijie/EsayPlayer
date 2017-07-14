@@ -10,6 +10,7 @@ import android.view.Window;
 
 import com.easy.player.R;
 import com.easy.player.config.Profile;
+import com.easy.player.entity.POMedia;
 import com.easy.player.fragment.LocalVideoFragment;
 import com.easy.player.fragment.NetworkVideoFragment;
 import com.easy.player.fragment.VpSimpleFragment;
@@ -19,6 +20,11 @@ import com.easy.player.widget.ViewPagerIndicator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.easy.player.service.MediaScanService.SCAN_STATUS_END;
+import static com.easy.player.service.MediaScanService.SCAN_STATUS_NORMAL;
+import static com.easy.player.service.MediaScanService.SCAN_STATUS_RUNNING;
+import static com.easy.player.service.MediaScanService.SCAN_STATUS_START;
 
 /**
  * 
@@ -104,4 +110,5 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 	}
+
 }
