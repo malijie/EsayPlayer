@@ -86,7 +86,6 @@ public class MediaScanService extends Service implements Runnable{
 
     @Override
     public void run() {
-        Log.mlj(TAG,"=====run====");
         scan();
     }
 
@@ -117,6 +116,7 @@ public class MediaScanService extends Service implements Runnable{
         }
 
         notifyObservers(SCAN_STATUS_END,null);
+        stopSelf();
     }
 
     /** 扫描文件 */

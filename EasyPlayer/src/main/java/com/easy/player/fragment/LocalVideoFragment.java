@@ -11,13 +11,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.easy.player.EasyPlayer;
 import com.easy.player.R;
+import com.easy.player.database.DBHelper;
 import com.easy.player.entity.POMedia;
 import com.easy.player.service.MediaScanService;
+import com.easy.player.ui.adapter.FileAdapter;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.vov.vitamio.utils.Log;
 
@@ -33,15 +42,68 @@ import static com.easy.player.service.MediaScanService.SCAN_STATUS_START;
 public class LocalVideoFragment extends Fragment implements MediaScanService.IMediaObserver{
     private static final String TAG = LocalVideoFragment.class.getSimpleName();
     private MediaScanService mService;
+    private ListView mListView = null;
+    private DBHelper mDBHelper = null;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.mlj(TAG,"=====onCreateView====");
         View v = Utils.getView(R.layout.local_video_layout);
+        initViews(v);
+        initData();
+
 
         getActivity().bindService(new Intent(getActivity().getApplicationContext(),MediaScanService.class),
                 mMediaServiceConn, Context.BIND_AUTO_CREATE);
+
+
         return v;
+    }
+
+    private void initData() {
+        mDBHelper = new DBHelper();
+    }
+
+//    private class TestAdapter extends BaseAdapter{
+//        private List<POMedia> mMediaList = null;
+//
+//        public TestAdapter (List<POMedia> medias){
+//            mMediaList = medias;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mMediaList.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return mMediaList.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//                View v = Utils.getView(R.layout.local_video_list_item);
+//                ImageView mImageThumb = (ImageView) v.findViewById(R.id.id_local_item_image_thumb);
+//                TextView mTextTitle = (TextView) v.findViewById(R.id.id_local_item_text_title);
+//                TextView mTextSize = (TextView) v.findViewById(R.id.id_local_item_text_size);
+//
+//            mTextSize.setText("====position==" + position);
+//            return v;
+//        }
+//
+//    }
+
+
+    private void initViews(View v) {
+        mListView = (ListView) v.findViewById(R.id.id_local_video_listview);
+
     }
 
 
@@ -50,7 +112,6 @@ public class LocalVideoFragment extends Fragment implements MediaScanService.IMe
         public void onServiceConnected(ComponentName name, IBinder service) {
             mService = ((MediaScanService.MediaScanServiceBinder)service).getService();
             mService.addObserver(LocalVideoFragment.this);
-            Log.mlj(TAG,"绑定成功");
         }
 
         @Override
@@ -69,16 +130,20 @@ public class LocalVideoFragment extends Fragment implements MediaScanService.IMe
     public void update(int flag, POMedia media) {
         switch (flag){
             case SCAN_STATUS_NORMAL:
-
+                Log.mlj("SCAN_STATUS_NORMAL");
                 break;
             case SCAN_STATUS_START:
-
+                Log.mlj("SCAN_STATUS_START");
                 break;
             case SCAN_STATUS_END:
+                List<POMedia> mediaList = mDBHelper.queryForAll(POMedia.class);
+
+                FileAdapter adapter = new FileAdapter(mediaList);
+                mListView.setAdapter(adapter);
 
                 break;
             case SCAN_STATUS_RUNNING:
-
+                Log.mlj("SCAN_STATUS_RUNNING");
                 break;
         }
     }

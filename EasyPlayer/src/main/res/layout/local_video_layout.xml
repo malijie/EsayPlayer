@@ -3,11 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="local video"
-        android:textColor="@color/viewpager_indicator_red"
-        android:layout_centerInParent="true"/>
+    <ListView
+        android:id="@+id/id_local_video_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:divider="@color/background_grey"
+        />
 
 </RelativeLayout>

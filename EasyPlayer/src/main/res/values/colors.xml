@@ -6,5 +6,5 @@
     <color name="plugin_video_quality_background">#212121</color>
     <color name="plugin_video_quality_line">#666666</color>
     <color name="plugin_video_quality_text_select">#2FB3FF</color>
-
+    <color name="list_item_color">#99585757</color>
 </resources>
