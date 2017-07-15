@@ -1,5 +1,6 @@
 package com.easy.player.fragment;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import com.easy.player.service.MediaScanService;
 import com.easy.player.ui.adapter.FileAdapter;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
+import com.easy.player.widget.EasyLoading;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -45,21 +47,25 @@ import static com.easy.player.service.MediaScanService.SCAN_STATUS_START;
 public class LocalVideoFragment extends Fragment implements AdapterView.OnItemClickListener, MediaScanService.IMediaObserver{
     private static final String TAG = LocalVideoFragment.class.getSimpleName();
     private MediaScanService mService;
+    private Activity mActivity = null;
     private ListView mListView = null;
+
     private DBHelper mDBHelper = null;
 
     private List<POMedia> mMediaList = null;
+    private EasyLoading loading;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.mlj(TAG,"=====onCreateView====");
         View v = Utils.getView(R.layout.local_video_layout);
+        mActivity = getActivity();
         initViews(v);
         initData();
 
 
-        getActivity().bindService(new Intent(getActivity().getApplicationContext(),MediaScanService.class),
+        mActivity.bindService(new Intent(mActivity.getApplicationContext(),MediaScanService.class),
                 mMediaServiceConn, Context.BIND_AUTO_CREATE);
 
 
@@ -72,9 +78,12 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
 
 
     private void initViews(View v) {
+        loading = new EasyLoading(mActivity);
+        loading.show();
         mListView = (ListView) v.findViewById(R.id.id_local_video_listview);
         mListView.setOnItemClickListener(this);
 
+         ;
     }
 
 
@@ -93,7 +102,7 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onDestroy() {
-        getActivity().unbindService(mMediaServiceConn);
+        mActivity.unbindService(mMediaServiceConn);
         super.onDestroy();
     }
 
@@ -105,18 +114,21 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case SCAN_STATUS_START:
                 Log.mlj(TAG,"SCAN_STATUS_START");
+
                 break;
             case SCAN_STATUS_END:
                 Log.mlj(TAG,"SCAN_STATUS_END");
 
                 mMediaList = mDBHelper.queryForAll(POMedia.class);
-
                 FileAdapter adapter = new FileAdapter(mMediaList);
                 mListView.setAdapter(adapter);
+
+                loading.hide();
 
                 break;
             case SCAN_STATUS_RUNNING:
                 Log.mlj(TAG,"SCAN_STATUS_RUNNING");
+
                 break;
         }
     }
@@ -124,7 +136,7 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getActivity(),FullScreenPlayActivity.class);
+        Intent i = new Intent(mActivity,FullScreenPlayActivity.class);
         i.putExtra("po_media", mMediaList.get(position));
         startActivity(i);
     }
