@@ -1,5 +1,7 @@
 package com.easy.player.utils;
 
+import com.easy.player.entity.POMedia;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -159,5 +161,32 @@ public class FileUtils {
             return null;
 
         return mMimeType.get(path.substring(lastDot + 1).toUpperCase());
+    }
+
+    /**
+     * 获取文件大小
+     * @param poMedia
+     * @return
+     */
+
+    public static String getFileSize(POMedia poMedia){
+        long fileSize = poMedia.file_size;
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#.0");
+
+        String strFileSize;
+        float tempSize = fileSize/1024/1024;
+        if(tempSize >1f && tempSize < 1024f){
+            strFileSize = df.format(tempSize) + "MB";
+        }else if(tempSize > 1024f){
+            strFileSize = df.format(tempSize/1024f) + "G";
+        }else{
+            strFileSize = df.format(fileSize/1024f) + "KB";
+        }
+        return strFileSize;
+
+    }
+
+    public static void clearCache(){
+
     }
 }

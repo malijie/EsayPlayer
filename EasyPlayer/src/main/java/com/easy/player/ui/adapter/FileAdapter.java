@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.entity.POMedia;
+import com.easy.player.utils.FileUtils;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
 
@@ -58,6 +59,7 @@ public class FileAdapter extends BaseAdapter{
         }
 
         holder.mTextTitle.setText(mMediaList.get(position).title);
+        holder.mTextSize.setText(FileUtils.getFileSize(mMediaList.get(position)));
 
         return convertView;
     }

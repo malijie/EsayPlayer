@@ -71,6 +71,7 @@ public class MediaScanService extends Service implements Runnable{
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.mlj(TAG,"=====onStartCommand====");
         if(intent != null){
+            mDBHelper.clearTable(POMedia.class);
             mScanDirectory = intent.getStringExtra(Profile.getScanDirectoryKey());
 
             if (!mScanMap.containsKey(mScanDirectory)){
@@ -86,6 +87,8 @@ public class MediaScanService extends Service implements Runnable{
 
         return super.onStartCommand(intent, flags, startId);
     }
+
+
 
     @Override
     public void run() {

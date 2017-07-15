@@ -39,7 +39,7 @@ public class DBHelper<T> {
         }finally {
             if(dao != null){
                 db.close();
-                dao = null;
+                db = null;
             }
         }
     }
@@ -55,7 +55,7 @@ public class DBHelper<T> {
         }finally {
             if(dao != null){
                 db.close();
-                dao = null;
+                db = null;
             }
         }
     }
@@ -81,18 +81,42 @@ public class DBHelper<T> {
 
     public boolean exists(T po, Map<String, Object> where) {
         SQLiteHelperOrm db = new SQLiteHelperOrm();
+        Dao dao = null;
         try {
-            Dao dao = db.getDao(po.getClass());
+             dao = db.getDao(po.getClass());
             if (dao.queryForFieldValues(where).size() > 0) {
                 return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (db != null)
+            if (dao != null){
                 db.close();
+                db = null;
+
+            }
         }
         return false;
+    }
+
+    public void clearTable(Class clazz){
+        SQLiteHelperOrm db = new SQLiteHelperOrm();
+        Dao dao = null;
+        try {
+            dao = db.getDao(clazz);
+            List<T> list = queryForAll(clazz);
+            for(int i=0;i<list.size();i++){
+                dao.delete(list.get(i));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if (dao != null){
+                db.close();
+                db = null;
+            }
+
+        }
     }
 
 }
