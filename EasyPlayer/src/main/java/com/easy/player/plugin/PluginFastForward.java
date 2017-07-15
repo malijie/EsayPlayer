@@ -43,21 +43,26 @@ public class PluginFastForward extends BasePlugin{
     }
 
     public void onForwardSlide(int deltaX){
-        mVideoView.pause();
-        if(updatingFastForward){
-            currentPosition = mVideoView.getCurrentPosition();
+        if(canForward()){
+            mVideoView.pause();
+            if(updatingFastForward){
+                currentPosition = mVideoView.getCurrentPosition();
+            }
+            mLayoutForward.setVisibility(View.VISIBLE);
+            mSeekDelta += Math.abs(deltaX/100);
+            long seekPosition = currentPosition + mSeekDelta;
+            if(seekPosition >= mVideoView.getDuration()){
+                ToastManager.showShortMsg("视频已播放完毕");
+                return;
+            }
+            mVideoView.seekTo(seekPosition);
+            disableUpdateOtherPlugin(PLUGIN_TYPE_FASTFORWARD);
         }
-        mLayoutForward.setVisibility(View.VISIBLE);
-        mSeekDelta += Math.abs(deltaX/100);
-        long seekPosition = currentPosition + mSeekDelta;
-        if(seekPosition >= mVideoView.getDuration()){
-            ToastManager.showShortMsg("视频已播放完毕");
-            return;
-        }
-        mVideoView.seekTo(seekPosition);
-        disableUpdateOtherPlugin(PLUGIN_TYPE_FASTFORWARD);
     }
 
+    private boolean canForward(){
+        return updatingFastForward;
+    }
 
     @Override
     public void hide() {

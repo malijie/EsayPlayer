@@ -44,9 +44,6 @@ public class FullScreenPlayActivity extends BaseActivity{
     private static final long UPDATE_TIME_FREQUENCE = 60 * 1000;
     private GestureDetector mGestureDetector = null;
 
-    private String FILE_PATH = Environment.getExternalStorageDirectory() +
-            File.separator + "apk" + File.separator + "test.mkv";
-
     private VideoView mVideoView = null;
 
     private MediaControllerHandler mHandler = new MediaControllerHandler(this);

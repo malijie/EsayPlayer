@@ -70,41 +70,6 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
         mDBHelper = new DBHelper();
     }
 
-//    private class TestAdapter extends BaseAdapter{
-//        private List<POMedia> mMediaList = null;
-//
-//        public TestAdapter (List<POMedia> medias){
-//            mMediaList = medias;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mMediaList.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return mMediaList.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//                View v = Utils.getView(R.layout.local_video_list_item);
-//                ImageView mImageThumb = (ImageView) v.findViewById(R.id.id_local_item_image_thumb);
-//                TextView mTextTitle = (TextView) v.findViewById(R.id.id_local_item_text_title);
-//                TextView mTextSize = (TextView) v.findViewById(R.id.id_local_item_text_size);
-//
-//            mTextSize.setText("====position==" + position);
-//            return v;
-//        }
-//
-//    }
-
 
     private void initViews(View v) {
         mListView = (ListView) v.findViewById(R.id.id_local_video_listview);

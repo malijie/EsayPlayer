@@ -42,11 +42,18 @@ public class PluginFastBack extends BasePlugin{
     }
 
     public void onBackSlide(int deltaX){
-        long currentPosition = mVideoView.getCurrentPosition();
-        mLayoutBack.setVisibility(View.VISIBLE);
-        mVideoView.pause();
-        mVideoView.seekTo(currentPosition - deltaX/10);
-        disableUpdateOtherPlugin(PLUGIN_TYPE_FASTBACK);
+        if(canBack()){
+            long currentPosition = mVideoView.getCurrentPosition();
+            mLayoutBack.setVisibility(View.VISIBLE);
+            mVideoView.pause();
+            mVideoView.seekTo(currentPosition - deltaX/10);
+            disableUpdateOtherPlugin(PLUGIN_TYPE_FASTBACK);
+        }
+
+    }
+
+    private boolean canBack(){
+        return updatingFastBack;
     }
 
     @Override

@@ -26,20 +26,25 @@ public abstract class BasePlugin{
             updatingFastBack = false;
             updatingVolume = false;
             updatingFastForward = false;
+             updatingBrightness = true;
         }else if(currentPlugin == PLUGIN_TYPE_VOLUME){
              updatingFastBack = false;
              updatingFastForward = false;
              updatingBrightness = false;
+             updatingVolume = true;
          }else if(currentPlugin == PLUGIN_TYPE_FASTBACK){
              updatingVolume = false;
              updatingFastForward = false;
              updatingBrightness = false;
+             updatingFastBack = true;
          }else if(currentPlugin == PLUGIN_TYPE_FASTFORWARD){
              updatingFastBack = false;
              updatingVolume = false;
              updatingBrightness = false;
+             updatingFastForward = true;
          }
     }
+
 
 
     public abstract void hide();
