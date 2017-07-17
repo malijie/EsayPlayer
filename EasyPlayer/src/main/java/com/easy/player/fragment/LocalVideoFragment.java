@@ -123,8 +123,7 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 Log.mlj(TAG,"SCAN_STATUS_END");
 
                 mMediaList = mDBHelper.queryForAll(POMedia.class);
-                mAdapter = new FileAdapter(mContext,mMediaList);
-                mListView.setAdapter(mAdapter);
+
 
                 new ThumbTask(mMediaList).execute();
 
@@ -150,13 +149,12 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
             for(int i=0; i<mMediaList.size();i++){
                 mBitmaps.add(VideoUtils.getThumbNail(mMediaList.get(i).path));
             }
-            Log.mlj("size===" + mBitmaps.size());
             return mBitmaps;
         }
 
         @Override
         protected void onPostExecute(List<Bitmap> bitmaps) {
-
+            mAdapter = new FileAdapter(mContext,mMediaList);
             mAdapter.setThumbListener(new FileAdapter.ThumbListener() {
                 @Override
                 public void update(ImageView imageview,int position) {
@@ -164,6 +162,8 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                     mAdapter.notifyDataSetChanged();
                 }
             });
+
+            mListView.setAdapter(mAdapter);
             super.onPostExecute(bitmaps);
         }
     }
