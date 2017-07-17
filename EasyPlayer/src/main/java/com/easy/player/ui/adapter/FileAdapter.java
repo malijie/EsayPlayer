@@ -1,6 +1,7 @@
 package com.easy.player.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -12,9 +13,12 @@ import com.easy.player.entity.POMedia;
 import com.easy.player.utils.FileUtils;
 import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
+import com.easy.player.utils.VideoUtils;
 
 import java.util.List;
 
+import io.vov.vitamio.ThumbnailUtils;
+import io.vov.vitamio.provider.MediaStore;
 import io.vov.vitamio.utils.Log;
 
 /**
@@ -23,8 +27,10 @@ import io.vov.vitamio.utils.Log;
 
 public class FileAdapter extends BaseAdapter{
     private List<POMedia> mMediaList = null;
+    private Context mContext = null;
 
-    public FileAdapter (List<POMedia> medias){
+    public FileAdapter (Context context,List<POMedia> medias){
+        mContext = context;
         mMediaList = medias;
     }
 
@@ -61,6 +67,11 @@ public class FileAdapter extends BaseAdapter{
         holder.mTextTitle.setText(mMediaList.get(position).title);
         holder.mTextSize.setText(FileUtils.getFileSize(mMediaList.get(position)));
 
+//        holder.mImageThumb.setImageBitmap(VideoUtils.getThumbNail(mMediaList.get(position).path));
+        if(mListener != null){
+            mListener.update(holder.mImageThumb,position);
+        }
+
         return convertView;
     }
 
@@ -68,5 +79,15 @@ public class FileAdapter extends BaseAdapter{
         public ImageView mImageThumb = null;
         public TextView mTextTitle = null;
         public TextView mTextSize = null;
+    }
+
+    private ThumbListener mListener;
+
+    public void setThumbListener(ThumbListener listener){
+        this.mListener = listener;
+    }
+
+    public interface ThumbListener{
+         void update(ImageView imageview,int position);
     }
 }

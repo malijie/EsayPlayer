@@ -9,7 +9,9 @@ import java.io.File;
  */
 
 public class Profile {
-    private static final String SCAN_DIRECTORY = Environment.getExternalStorageDirectory() + File.separator + "apk";
+    private static final String SCAN_DIRECTORY = Environment.getExternalStorageDirectory() + File.separator + "apk" + File.separator;
+//    private static final String SCAN_DIRECTORY = Environment.getExternalStorageDirectory() + File.separator ;
+
     private static final String SCAN_DIRECTORY_KEY = "directory_key";
 
     public static String getScanDirectory(){

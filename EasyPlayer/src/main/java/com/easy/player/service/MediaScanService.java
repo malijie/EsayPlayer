@@ -61,8 +61,8 @@ public class MediaScanService extends Service implements Runnable{
 
     @Override
     public void onCreate() {
-        Log.mlj(TAG,"=====onCreate====");
         super.onCreate();
+        Log.mlj(TAG,"=====onCreate====");
         mDBHelper = new DBHelper<>();
 
     }
@@ -96,15 +96,18 @@ public class MediaScanService extends Service implements Runnable{
     }
 
     private void scan(){
-
+        Log.mlj(TAG,"=====scan====");
         while (mScanMap.keySet().size() > 0) {
             String path = "";
             for (String key : mScanMap.keySet()) {
                 path = key;
                 break;
             }
+
             if (mScanMap.containsKey(path)) {
+
                 String mimeType = mScanMap.get(path);
+    Log.mlj(TAG,"mimeType==" + mimeType);
                 if ("".equals(mimeType)) {
                     scanDirectory(path);
                 } else {

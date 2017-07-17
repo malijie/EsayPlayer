@@ -1,5 +1,9 @@
 package com.easy.player.utils;
 
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
+
 import com.easy.player.entity.POMedia;
 
 import java.io.File;
@@ -178,7 +182,7 @@ public class FileUtils {
         if(tempSize >1f && tempSize < 1024f){
             strFileSize = df.format(tempSize) + "MB";
         }else if(tempSize > 1024f){
-            strFileSize = df.format(tempSize/1024f) + "G";
+            strFileSize = df.format(tempSize/1024f) + "GB";
         }else{
             strFileSize = df.format(fileSize/1024f) + "KB";
         }
@@ -186,7 +190,5 @@ public class FileUtils {
 
     }
 
-    public static void clearCache(){
 
-    }
 }

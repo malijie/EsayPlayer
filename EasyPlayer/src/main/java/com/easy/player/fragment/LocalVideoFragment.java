@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -13,23 +15,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.easy.player.EasyPlayer;
 import com.easy.player.R;
 import com.easy.player.activity.FullScreenPlayActivity;
 import com.easy.player.database.DBHelper;
 import com.easy.player.entity.POMedia;
 import com.easy.player.service.MediaScanService;
 import com.easy.player.ui.adapter.FileAdapter;
-import com.easy.player.utils.ToastManager;
 import com.easy.player.utils.Utils;
+import com.easy.player.utils.VideoUtils;
 import com.easy.player.widget.EasyLoading;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +37,7 @@ import static com.easy.player.service.MediaScanService.SCAN_STATUS_END;
 import static com.easy.player.service.MediaScanService.SCAN_STATUS_NORMAL;
 import static com.easy.player.service.MediaScanService.SCAN_STATUS_RUNNING;
 import static com.easy.player.service.MediaScanService.SCAN_STATUS_START;
+import static com.easy.player.service.MediaScanService.TAG;
 
 /**
  * Created by malijie on 2017/6/23.
@@ -48,9 +47,11 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
     private static final String TAG = LocalVideoFragment.class.getSimpleName();
     private MediaScanService mService;
     private Activity mActivity = null;
+    private Context mContext = null;
     private ListView mListView = null;
 
     private DBHelper mDBHelper = null;
+    private FileAdapter mAdapter;
 
     private List<POMedia> mMediaList = null;
     private EasyLoading loading;
@@ -61,6 +62,7 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
         Log.mlj(TAG,"=====onCreateView====");
         View v = Utils.getView(R.layout.local_video_layout);
         mActivity = getActivity();
+        mContext = getContext();
         initViews(v);
         initData();
 
@@ -90,6 +92,7 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
     private ServiceConnection mMediaServiceConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.mlj(TAG,"======onServiceConnected=======");
             mService = ((MediaScanService.MediaScanServiceBinder)service).getService();
             mService.addObserver(LocalVideoFragment.this);
         }
@@ -120,8 +123,10 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 Log.mlj(TAG,"SCAN_STATUS_END");
 
                 mMediaList = mDBHelper.queryForAll(POMedia.class);
-                FileAdapter adapter = new FileAdapter(mMediaList);
-                mListView.setAdapter(adapter);
+                mAdapter = new FileAdapter(mContext,mMediaList);
+                mListView.setAdapter(mAdapter);
+
+                new ThumbTask(mMediaList).execute();
 
                 loading.hide();
 
@@ -130,6 +135,36 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 Log.mlj(TAG,"SCAN_STATUS_RUNNING");
 
                 break;
+        }
+    }
+
+    private class ThumbTask extends AsyncTask<Void,Void,List<Bitmap>>{
+        private List<POMedia> mMediaList = null;
+        private List<Bitmap> mBitmaps = new ArrayList<>();
+
+        public ThumbTask(List<POMedia> mediaList){
+            mMediaList = mediaList;
+        }
+        @Override
+        protected List<Bitmap> doInBackground(Void... params) {
+            for(int i=0; i<mMediaList.size();i++){
+                mBitmaps.add(VideoUtils.getThumbNail(mMediaList.get(i).path));
+            }
+            Log.mlj("size===" + mBitmaps.size());
+            return mBitmaps;
+        }
+
+        @Override
+        protected void onPostExecute(List<Bitmap> bitmaps) {
+
+            mAdapter.setThumbListener(new FileAdapter.ThumbListener() {
+                @Override
+                public void update(ImageView imageview,int position) {
+                    imageview.setImageBitmap(mBitmaps.get(position));
+                    mAdapter.notifyDataSetChanged();
+                }
+            });
+            super.onPostExecute(bitmaps);
         }
     }
 
