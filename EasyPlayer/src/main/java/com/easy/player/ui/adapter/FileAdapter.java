@@ -67,7 +67,6 @@ public class FileAdapter extends BaseAdapter{
         holder.mTextTitle.setText(mMediaList.get(position).title);
         holder.mTextSize.setText(FileUtils.getFileSize(mMediaList.get(position)));
 
-//        holder.mImageThumb.setImageBitmap(VideoUtils.getThumbNail(mMediaList.get(position).path));
         if(mListener != null){
             mListener.update(holder.mImageThumb,position);
         }

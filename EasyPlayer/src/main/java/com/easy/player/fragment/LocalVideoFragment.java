@@ -121,12 +121,8 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case SCAN_STATUS_END:
                 Log.mlj(TAG,"SCAN_STATUS_END");
-
                 mMediaList = mDBHelper.queryForAll(POMedia.class);
-
-
                 new ThumbTask(mMediaList).execute();
-
                 loading.hide();
 
                 break;

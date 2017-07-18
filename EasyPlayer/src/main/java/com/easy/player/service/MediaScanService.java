@@ -107,7 +107,6 @@ public class MediaScanService extends Service implements Runnable{
             if (mScanMap.containsKey(path)) {
 
                 String mimeType = mScanMap.get(path);
-    Log.mlj(TAG,"mimeType==" + mimeType);
                 if ("".equals(mimeType)) {
                     scanDirectory(path);
                 } else {
