@@ -2,6 +2,8 @@ package com.easy.player.plugin;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +19,8 @@ import io.vov.vitamio.utils.Log;
 public class PluginVolume extends BasePlugin{
     private Activity mActivity;
     private RelativeLayout mLayoutVolume = null;
-    private TextView mTextVolume = null;
+    private ImageView mImageVolumeBg = null;
+    private ImageView mImageVolumeFront = null;
     private int volume;
     private int maxVolume = Utils.getMaxVolume();
     private static PluginVolume sPluginVolume;
@@ -25,7 +28,8 @@ public class PluginVolume extends BasePlugin{
     private PluginVolume(Activity activity){
         mActivity = activity;
         mLayoutVolume = (RelativeLayout) activity.findViewById(R.id.id_vb_layout_volume);
-        mTextVolume = (TextView) activity.findViewById(R.id.id_vb_text_volume);
+        mImageVolumeBg = (ImageView) activity.findViewById(R.id.id_vb_image_volume_bg);
+        mImageVolumeFront = (ImageView) activity.findViewById(R.id.id_vb_image_volume_front);
     }
 
     public static PluginVolume getInstance(Activity activity){
@@ -54,9 +58,12 @@ public class PluginVolume extends BasePlugin{
                 volume += (deltaVolume/100);
             }
 
-            int volumePercent = Math.round(volume/15f * 100);
-            mTextVolume.setText(volumePercent + "%");
+            float volumePercent = volume/15f;
 
+            ViewGroup.LayoutParams lp = mImageVolumeFront.getLayoutParams();
+            lp.width = (int) (mImageVolumeBg.getLayoutParams().width * volumePercent);
+            mImageVolumeFront.setLayoutParams(lp);
+Log.mlj("width=" + lp.width + ",volumePercent=" + volumePercent + ",volume=" + volume + ",bg width=" + mImageVolumeBg.getLayoutParams().width);
             Utils.changeAppVolume(volume);
 
         }

@@ -128,7 +128,6 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
                 break;
             case SCAN_STATUS_RUNNING:
                 Log.mlj(TAG,"SCAN_STATUS_RUNNING");
-
                 break;
         }
     }

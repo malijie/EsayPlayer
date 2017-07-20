@@ -43,7 +43,7 @@ public class Utils {
     }
 
     // 根据亮度值修改当前window亮度
-   public static void changeAppBrightness(Activity activity, int brightness) {
+   public static void changeAppBrightness(Activity activity, float brightness) {
         Window window = activity.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         if (brightness == -1) {

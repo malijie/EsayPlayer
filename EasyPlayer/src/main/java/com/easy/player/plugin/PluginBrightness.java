@@ -3,6 +3,7 @@ package com.easy.player.plugin;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,15 +21,18 @@ import io.vov.vitamio.utils.Log;
 public class PluginBrightness extends BasePlugin {
     private RelativeLayout mLayoutBrightness = null;
     private Activity mActivity = null;
-    private TextView mTextBrightness = null;
+    private ImageView mImageBrightnessBg = null;
+    private ImageView mImageBrightnessFront = null;
     private static PluginBrightness sPluginBrightness = null;
 
-    private int brightness;
+    private float brightness;
 
     private PluginBrightness(Activity activity){
         mActivity = activity;
         mLayoutBrightness = (RelativeLayout) activity.findViewById(R.id.id_vb_layout_brightness);
-        mTextBrightness = (TextView) activity.findViewById(R.id.id_vb_text_brightness);
+        mImageBrightnessBg = (ImageView) activity.findViewById(R.id.id_vb_image_brightness_bg);
+        mImageBrightnessFront = (ImageView) activity.findViewById(R.id.id_vb_image_brightness_front);
+
     }
 
     public static PluginBrightness getInstance(Activity activity){
@@ -59,9 +63,10 @@ public class PluginBrightness extends BasePlugin {
 
             Utils.changeAppBrightness(mActivity, brightness);
 
-            int percent =  brightness*100/255 ;
-            mTextBrightness.setText(percent + "%");
-
+            float percent =  brightness /255 ;
+            ViewGroup.LayoutParams lp = mImageBrightnessFront.getLayoutParams();
+            lp.width = (int) (mImageBrightnessBg.getLayoutParams().width * percent);
+            mImageBrightnessFront.setLayoutParams(lp);
         }
 
     }

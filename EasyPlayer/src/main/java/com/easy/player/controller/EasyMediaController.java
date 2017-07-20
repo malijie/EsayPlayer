@@ -316,24 +316,24 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
 //Log.mlj("screenWidth=" + mScreenWidth +",x=" + x + ",y=" + y +",newX=" + newX + ",newY=" + newY + ",deltaX=" + deltaX + ",deltaY=" + deltaY + ",distanceX=" + distanceX + ",distanceY="+distanceY);
             //右半屏,调节亮度
             if(newX>mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
-                Log.mlj("=====调节亮度====");
+                Log.mlj(TAG,"=====调节亮度====");
                 mPluginBrightness.onBrightnessSlide(deltaY);
 
             }else if(newX<mScreenWidth/2 && Math.abs(deltaY)>Math.abs(deltaX)){
                 //左半屏，调节音量
-                Log.mlj("=====调节音量====");
+                Log.mlj(TAG,"=====调节音量====");
                 mPluginVolume.onVolumeSlide(deltaY);
 
 
             }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX>40){
                 //快退
-                Log.mlj("=====快退====");
+                Log.mlj(TAG,"=====快退====");
                 mPluginFastBack.onBackSlide(deltaX);
 
 
             }else if(Math.abs(deltaX)>Math.abs(deltaY) && deltaX<-40){
                 //快退
-                Log.mlj("=====快进====");
+                Log.mlj(TAG,"=====快进====");
                 mPluginFastForward.onForwardSlide(deltaX);
 
             }
