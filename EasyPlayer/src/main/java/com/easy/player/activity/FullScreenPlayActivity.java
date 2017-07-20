@@ -20,6 +20,7 @@ import com.easy.player.entity.POMedia;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
+import com.easy.player.plugin.PluginLock;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.Utils;
 
@@ -50,12 +51,11 @@ public class FullScreenPlayActivity extends BaseActivity{
     private EasyMediaController mEasyMediaController = null;
     private int mScreenWidth;
 
-
-
     private PluginBrightness mPluginBrightness = null;
     private PluginVolume mPluginVolume = null;
     private PluginFastBack mPluginBack = null;
     private PluginFastForward mPluginFastForward = null;
+    private PluginLock mPluginLock = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +89,7 @@ public class FullScreenPlayActivity extends BaseActivity{
         mPluginVolume = PluginVolume.getInstance(this);
         mPluginFastForward = PluginFastForward.getInstance(this,mVideoView);
         mPluginBack =  PluginFastBack.getInstance(this,mVideoView);
+        mPluginLock = PluginLock.getInstance(this);
     }
 
     @Override
@@ -126,6 +127,7 @@ public class FullScreenPlayActivity extends BaseActivity{
                      mPluginVolume.hide();
                      mPluginFastForward.hide();
                      mPluginBack.hide();
+                     mPluginLock.hide();
                      break;
 
              }

@@ -84,8 +84,6 @@ public class LocalVideoFragment extends Fragment implements AdapterView.OnItemCl
         loading.show();
         mListView = (ListView) v.findViewById(R.id.id_local_video_listview);
         mListView.setOnItemClickListener(this);
-
-         ;
     }
 
 

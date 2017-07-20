@@ -32,7 +32,6 @@ public class PluginBrightness extends BasePlugin {
         mLayoutBrightness = (RelativeLayout) activity.findViewById(R.id.id_vb_layout_brightness);
         mImageBrightnessBg = (ImageView) activity.findViewById(R.id.id_vb_image_brightness_bg);
         mImageBrightnessFront = (ImageView) activity.findViewById(R.id.id_vb_image_brightness_front);
-
     }
 
     public static PluginBrightness getInstance(Activity activity){

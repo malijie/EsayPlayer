@@ -19,6 +19,7 @@ import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
+import com.easy.player.plugin.PluginLock;
 import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.SharePreferenceUtil;
@@ -57,6 +58,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private PluginFastForward mPluginFastForward = null;
     private PluginFastBack mPluginFastBack = null;
     private PluginVolume mPluginVolume = null;
+    private PluginLock mPluginLock = null;
 
     private long mSeekDelta;
     private int mScreenWidth;
@@ -88,6 +90,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginVolume = PluginVolume.getInstance(mActivity);
         mPluginFastForward = PluginFastForward.getInstance(mActivity,mVideoView);
         mPluginFastBack = PluginFastBack.getInstance(mActivity,mVideoView);
+        mPluginLock = PluginLock.getInstance(mActivity);
 
         mPluginVideoQuality = new PluginVideoQuality(mActivity);
         mPluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
@@ -402,6 +405,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginVolume.hide();
         mPluginFastForward.hide();
         mPluginFastBack.hide();
+        mPluginLock.hide();
 
     }
 
