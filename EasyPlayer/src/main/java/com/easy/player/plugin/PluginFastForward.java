@@ -61,7 +61,7 @@ public class PluginFastForward extends BasePlugin{
     }
 
     private boolean canForward(){
-        return updatingFastForward;
+        return updatingFastForward && isEnable;
     }
 
     @Override
@@ -70,6 +70,15 @@ public class PluginFastForward extends BasePlugin{
             mLayoutForward.setVisibility(View.GONE);
             updatingFastForward = true;
             sPluginFastForward = null;
+        }
+    }
+
+    @Override
+    public void setEnable(boolean open) {
+        if(!open){
+            isEnable = false;
+        }else{
+            isEnable = true;
         }
     }
 }

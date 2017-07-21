@@ -53,7 +53,7 @@ public class PluginFastBack extends BasePlugin{
     }
 
     private boolean canBack(){
-        return updatingFastBack;
+        return updatingFastBack && isEnable;
     }
 
     @Override
@@ -62,6 +62,15 @@ public class PluginFastBack extends BasePlugin{
             mLayoutBack.setVisibility(View.GONE);
             updatingFastBack = true;
             sPluginFastBack = null;
+        }
+    }
+
+    @Override
+    public void setEnable(boolean open) {
+        if(!open){
+            isEnable = false;
+        }else{
+            isEnable = true;
         }
     }
 }

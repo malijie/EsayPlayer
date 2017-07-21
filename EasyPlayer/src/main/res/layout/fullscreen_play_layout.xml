@@ -13,6 +13,5 @@
 
     <include layout="@layout/volume_brightness_layout"/>
     <include layout="@layout/forward_back_layout"/>
-    <include layout="@layout/plugin_lock_layout"/>
 
 </RelativeLayout>

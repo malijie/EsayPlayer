@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.easy.player.R;
 import com.easy.player.controller.EasyMediaController;
@@ -20,11 +17,9 @@ import com.easy.player.entity.POMedia;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
-import com.easy.player.plugin.PluginLock;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.Utils;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 
 import io.vov.vitamio.utils.Log;
@@ -55,7 +50,6 @@ public class FullScreenPlayActivity extends BaseActivity{
     private PluginVolume mPluginVolume = null;
     private PluginFastBack mPluginBack = null;
     private PluginFastForward mPluginFastForward = null;
-    private PluginLock mPluginLock = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +83,6 @@ public class FullScreenPlayActivity extends BaseActivity{
         mPluginVolume = PluginVolume.getInstance(this);
         mPluginFastForward = PluginFastForward.getInstance(this,mVideoView);
         mPluginBack =  PluginFastBack.getInstance(this,mVideoView);
-        mPluginLock = PluginLock.getInstance(this);
     }
 
     @Override
@@ -127,7 +120,6 @@ public class FullScreenPlayActivity extends BaseActivity{
                      mPluginVolume.hide();
                      mPluginFastForward.hide();
                      mPluginBack.hide();
-                     mPluginLock.hide();
                      break;
 
              }

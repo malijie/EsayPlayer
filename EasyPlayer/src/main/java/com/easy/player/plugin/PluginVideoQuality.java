@@ -120,6 +120,11 @@ public class PluginVideoQuality extends BasePlugin{
         mDialog.dismiss();
     }
 
+    @Override
+    public void setEnable(boolean open) {
+
+    }
+
     public interface ISelectQualityListener {
         void selectHighQuality();
         void selectMediumQuality();

@@ -72,7 +72,7 @@ public class PluginBrightness extends BasePlugin {
 
 
     private boolean canUpdateBrightness(){
-        return updatingBrightness;
+        return updatingBrightness && isEnable;
     }
 
 
@@ -82,6 +82,15 @@ public class PluginBrightness extends BasePlugin {
             mLayoutBrightness.setVisibility(View.GONE);
             updatingBrightness = true;
             sPluginBrightness = null;
+        }
+    }
+
+    @Override
+    public void setEnable(boolean open) {
+        if(!open){
+            isEnable = false;
+        }else{
+            isEnable = true;
         }
     }
 }

@@ -21,6 +21,8 @@ public abstract class BasePlugin{
     public static boolean updatingFastForward = true;
     public static boolean updatingBrightness = true;
 
+    public boolean isEnable = true;
+
     public void disableUpdateOtherPlugin(int currentPlugin){
          if(currentPlugin == PLUGIN_TYPE_BRIGHTNESS){
             updatingFastBack = false;
@@ -48,5 +50,7 @@ public abstract class BasePlugin{
 
 
     public abstract void hide();
+
+    public abstract void setEnable(boolean open);
 
 }

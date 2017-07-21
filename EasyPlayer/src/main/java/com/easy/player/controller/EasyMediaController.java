@@ -1,8 +1,6 @@
 package com.easy.player.controller;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -11,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easy.player.R;
@@ -19,7 +16,6 @@ import com.easy.player.base.PlayerMessage;
 import com.easy.player.plugin.PluginBrightness;
 import com.easy.player.plugin.PluginFastBack;
 import com.easy.player.plugin.PluginFastForward;
-import com.easy.player.plugin.PluginLock;
 import com.easy.player.plugin.PluginVideoQuality;
 import com.easy.player.plugin.PluginVolume;
 import com.easy.player.utils.SharePreferenceUtil;
@@ -45,11 +41,13 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private ImageButton mButtonPlay = null;
     private ImageButton mButtonPause;
     private ImageButton mButtonBack;
+    private ImageButton mButtonLock;
     private TextView mTextVideoTime;
     private ImageView mImageButtery;
     private TextView mTextBattery;
     private TextView mTextCurrentTime;
     private TextView mTextVideoQuality = null;
+
 
     private GestureDetector mGestureDetector = null;
 
@@ -58,10 +56,10 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private PluginFastForward mPluginFastForward = null;
     private PluginFastBack mPluginFastBack = null;
     private PluginVolume mPluginVolume = null;
-    private PluginLock mPluginLock = null;
 
     private long mSeekDelta;
     private int mScreenWidth;
+    private boolean isLocked = false;
 
 
     public EasyMediaController(Context context, AttributeSet attrs) {
@@ -90,7 +88,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginVolume = PluginVolume.getInstance(mActivity);
         mPluginFastForward = PluginFastForward.getInstance(mActivity,mVideoView);
         mPluginFastBack = PluginFastBack.getInstance(mActivity,mVideoView);
-        mPluginLock = PluginLock.getInstance(mActivity);
+
 
         mPluginVideoQuality = new PluginVideoQuality(mActivity);
         mPluginVideoQuality.setSelectQualityListener(new PluginVideoQuality.ISelectQualityListener() {
@@ -195,6 +193,48 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     };
 
 
+    private OnClickListener lockBtnOnClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            handleOnLock();
+        }
+    };
+
+    public void handleOnLock(){
+        if(isLocked()){
+            isLocked = false;
+            handleUnlock();
+
+        }else{
+            isLocked = true;
+            handleLock();
+        }
+    }
+
+    private void handleUnlock() {
+        mButtonLock.setBackgroundResource(R.mipmap.lock_normal);
+        mPluginBrightness.setEnable(true);
+        mPluginFastBack.setEnable(true);
+        mPluginFastForward.setEnable(true);
+        mPluginVolume.setEnable(true);
+        setEnabled(true);
+
+    }
+
+    private void handleLock() {
+        mButtonLock.setBackgroundResource(R.mipmap.lock_selected);
+        mPluginBrightness.setEnable(false);
+        mPluginFastBack.setEnable(false);
+        mPluginFastForward.setEnable(false);
+        mPluginVolume.setEnable(false);
+        setEnabled(false);
+    }
+
+    public boolean isLocked(){
+        return isLocked;
+    }
+
+
     private void handleChangeQuality(int quality){
 
         mVideoView.setVideoQuality(quality);
@@ -231,6 +271,7 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mButtonPlay = (ImageButton) v.findViewById(R.id.id_controller_button_play);
         mButtonPause = (ImageButton) v.findViewById(R.id.id_controller_button_pause);
         mButtonBack = (ImageButton) v.findViewById(R.id.id_controller_button_back);
+        mButtonLock = (ImageButton) v.findViewById(R.id.id_controller_button_lock);
         mTextCurrentTime = (TextView) v.findViewById(R.id.id_controller_text_current_time);
         mTextVideoTime = (TextView)v.findViewById(R.id.mediacontroller_time_total);
         mTextBattery = (TextView) v.findViewById(R.id.id_controller_text_battery);
@@ -241,9 +282,11 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mButtonPause.setOnClickListener(pauseBtnOnClickListener);
         mButtonBack.setOnClickListener(backBtnOnClickListener);
         mTextVideoQuality.setOnClickListener(qualityBtnOnClickListener);
+        mButtonLock.setOnClickListener(lockBtnOnClickListener);
 
         mTextVideoTime.setText(mVideoView.getDuration() + "");
         mTextVideoQuality.setText(getVideoQuality(SharePreferenceUtil.loadVideoQuality()));
+
 
         initViews();
 
@@ -405,7 +448,6 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
         mPluginVolume.hide();
         mPluginFastForward.hide();
         mPluginFastBack.hide();
-        mPluginLock.hide();
 
     }
 

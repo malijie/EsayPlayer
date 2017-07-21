@@ -63,7 +63,6 @@ public class PluginVolume extends BasePlugin{
             ViewGroup.LayoutParams lp = mImageVolumeFront.getLayoutParams();
             lp.width = (int) (mImageVolumeBg.getLayoutParams().width * volumePercent);
             mImageVolumeFront.setLayoutParams(lp);
-Log.mlj("width=" + lp.width + ",volumePercent=" + volumePercent + ",volume=" + volume + ",bg width=" + mImageVolumeBg.getLayoutParams().width);
             Utils.changeAppVolume(volume);
 
         }
@@ -71,7 +70,7 @@ Log.mlj("width=" + lp.width + ",volumePercent=" + volumePercent + ",volume=" + v
     }
 
     private boolean canUpdateVolume(){
-        return updatingVolume;
+        return updatingVolume && isEnable;
     }
 
 
@@ -81,6 +80,15 @@ Log.mlj("width=" + lp.width + ",volumePercent=" + volumePercent + ",volume=" + v
             updatingVolume = true;
             mLayoutVolume.setVisibility(View.GONE);
             sPluginVolume = null;
+        }
+    }
+
+    @Override
+    public void setEnable(boolean open) {
+        if(!open){
+            isEnable = false;
+        }else{
+            isEnable = true;
         }
     }
 }

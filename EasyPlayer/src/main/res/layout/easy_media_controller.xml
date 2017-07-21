@@ -6,7 +6,6 @@
 
     <include layout="@layout/volume_brightness_layout"/>
     <include layout="@layout/forward_back_layout"/>
-    <include layout="@layout/plugin_lock_layout"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -129,4 +128,13 @@
             android:layout_marginRight="10dp"
             android:max="1000" />
     </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/id_controller_button_lock"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@mipmap/lock_normal"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"/>
+
 </RelativeLayout>
