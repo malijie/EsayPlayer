@@ -1,5 +1,8 @@
 package com.easy.player.plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.vov.vitamio.MediaPlayer;
 
 /**
@@ -22,6 +25,8 @@ public abstract class BasePlugin{
     public static boolean updatingBrightness = true;
 
     public boolean isEnable = true;
+
+    private List<BasePlugin> plugins = new ArrayList<>();
 
     public void disableUpdateOtherPlugin(int currentPlugin){
          if(currentPlugin == PLUGIN_TYPE_BRIGHTNESS){
@@ -48,9 +53,13 @@ public abstract class BasePlugin{
     }
 
 
-
     public abstract void hide();
 
-    public abstract void setEnable(boolean open);
-
+    public void setEnable(boolean isOpen){
+        if(!isOpen){
+            isEnable = false;
+        }else{
+            isEnable = true;
+        }
+    }
 }

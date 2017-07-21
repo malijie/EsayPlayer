@@ -85,12 +85,4 @@ public class PluginBrightness extends BasePlugin {
         }
     }
 
-    @Override
-    public void setEnable(boolean open) {
-        if(!open){
-            isEnable = false;
-        }else{
-            isEnable = true;
-        }
-    }
 }

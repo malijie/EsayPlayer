@@ -196,44 +196,24 @@ public class EasyMediaController  extends MediaController implements PlayerMessa
     private OnClickListener lockBtnOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            handleOnLock();
+            handleOnLock(isLocked);
         }
     };
 
-    public void handleOnLock(){
-        if(isLocked()){
-            isLocked = false;
-            handleUnlock();
 
-        }else{
-            isLocked = true;
-            handleLock();
-        }
+    private void handleOnLock(boolean isLock) {
+        mButtonLock.setBackgroundResource(isLock ? R.mipmap.lock_normal:R.mipmap.lock_selected);
+        mPluginBrightness.setEnable(isLock);
+        mPluginFastBack.setEnable(isLock);
+        mPluginFastForward.setEnable(isLock);
+        mPluginVolume.setEnable(isLock);
+        setControllerEnable(isLock);
+        isLocked = !isLock;
     }
 
-    private void handleUnlock() {
-        mButtonLock.setBackgroundResource(R.mipmap.lock_normal);
-        mPluginBrightness.setEnable(true);
-        mPluginFastBack.setEnable(true);
-        mPluginFastForward.setEnable(true);
-        mPluginVolume.setEnable(true);
-        setEnabled(true);
-
+    private void setControllerEnable(boolean isLock){
+        setEnabled(isLock);
     }
-
-    private void handleLock() {
-        mButtonLock.setBackgroundResource(R.mipmap.lock_selected);
-        mPluginBrightness.setEnable(false);
-        mPluginFastBack.setEnable(false);
-        mPluginFastForward.setEnable(false);
-        mPluginVolume.setEnable(false);
-        setEnabled(false);
-    }
-
-    public boolean isLocked(){
-        return isLocked;
-    }
-
 
     private void handleChangeQuality(int quality){
 
